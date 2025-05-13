@@ -6,11 +6,11 @@ import it.nextre.corsojava.entity.ProdottoListaSpesa;
 public interface ListaSpesaService {
 	
 	public void createProduct(ProdottoListaSpesa item);
-	public void modifyProduct(ProdottoListaSpesa entity);
-	public void removeProduct(Long id);
+	public void updateProduct(ProdottoListaSpesa entity);
+	public void deleteProduct(Long id);
 	
 	public void createList(ListaSpesa item);
-	public void modifyList(ListaSpesa entity);
-	public void removeList(Long id);
+	public void updateList(ListaSpesa entity);
+	public void deleteList(Long id);
 
 }
