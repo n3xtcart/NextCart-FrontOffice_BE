@@ -1,18 +1,19 @@
-CREATE TABLE 'liste_spesa' (
-  `id` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE liste_spesa (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(100) NOT NULL,
-  `data_prevista` DATE NULL,
-  `id_utente` INT NOT NULL,
+  `data_prevista` DATE NOT NULL,
+  `id_utente` BIGINT NOT NULL,
+  UNIQUE KEY `unique_lista_per_utente` (`nome`,`id_utente`),
   PRIMARY KEY (`id`));
   
-CREATE TABLE `prodotti_lista_spesa` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `id_prodotto` INT NOT NULL,
+CREATE TABLE prodotti_lista_spesa (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `id_prodotto` BIGINT NOT NULL,
   `quantita` DECIMAL(10,2) NOT NULL,
-  `id_tipologia` INT NOT NULL,
-  `note` VARCHAR(255) NULL,
-  `checked` TINYINT NULL DEFAULT 0,
-  `lista_spesa_id` INT NOT NULL,
+  `id_tipologia` BIGINT NOT NULL,
+  `note` varchar(255) DEFAULT NULL,
+  `checked` BIT(1) NOT NULL DEFAULT 0,
+  `lista_spesa_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_lista_spesa`
     FOREIGN KEY (`lista_spesa_id`)

@@ -1,15 +1,39 @@
 package it.nextre.nextcart.entity;
 
+import java.math.BigDecimal;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+
+@Entity
+@Table(name = "prodotti_lista_spesa")
 public class ProdottoListaSpesa {
 	
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private ListaSpesa listaSpesa;
+		
+	@Column(name = "id_prodotto", nullable = false)
 	private Long idProdotto;
-	private Double quantita;
-	private Long idTipologia;         
-	private String note;      
+	
+	@Column(name = "quantita", precision = 10, scale = 2, nullable = false)
+	private BigDecimal quantita;
+	
+	@Column(name = "id_tipologia", nullable = false)
+	private Long idTipologia;
+	
+	@Column(name = "note", length = 255)
+	private String note;   
+	
+	@Column(name = "checked", nullable = false)
 	private Boolean checked;
 	
+	@Transient
+	private ListaSpesa listaSpesa;
 	
 	public Long getId() {
 		return id;
@@ -31,11 +55,11 @@ public class ProdottoListaSpesa {
 		this.idProdotto = idProdotto;
 	}
 	
-	public Double getQuantita() {
+	public BigDecimal getQuantita() {
 		return quantita;
 	}
 	
-	public void setQuantita(Double quantita) {
+	public void setQuantita(BigDecimal quantita) {
 		this.quantita = quantita;
 	}
 	
