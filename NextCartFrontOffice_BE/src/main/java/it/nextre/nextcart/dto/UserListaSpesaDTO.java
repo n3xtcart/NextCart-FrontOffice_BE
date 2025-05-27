@@ -18,5 +18,7 @@ public class UserListaSpesaDTO  {
 	public void setListeSpesa(List<ListaSpesaDTO> listeSpesa) {
 		this.listeSpesa = listeSpesa;
 	}
+	
+
 
 }

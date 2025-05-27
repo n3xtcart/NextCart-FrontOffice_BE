@@ -1,57 +1,120 @@
 package it.nextre.nextcart.dto;
 
+import java.math.BigDecimal;
+
+import it.nextre.nextcart.entity.ProdottoListaSpesa;
+
 public class ProdottoListaSpesaDTO  {
 	
+
 	private Long idProdottoLista;
 	public String nomeProdotto;
 	private String categoriaProdotto; 
 	public String tipologiaProdotto;	//se sono grammi o se è una confezione
-	public Double quantitaProdotto;
+	public BigDecimal quantitaProdotto;
 	public String noteProdotto;
 	public Boolean checkedProdotto;
 	
 	public Long getIdProdottoLista() {
-        return idProdottoLista;
-    }
+		return idProdottoLista;
+	}
 
-    public String getNomeProdotto() {
-        return nomeProdotto;
-    }
+	public void setIdProdottoLista(Long idProdottoLista) {
+		this.idProdottoLista = idProdottoLista;
+	}
 
-    public String getCategoriaProdotto() {
-        return categoriaProdotto;
-    }
+	public String getNomeProdotto() {
+		return nomeProdotto;
+	}
 
-    public String getTipologiaProdotto() {
-        return tipologiaProdotto;
-    }
+	public void setNomeProdotto(String nomeProdotto) {
+		this.nomeProdotto = nomeProdotto;
+	}
 
-    public void setTipologiaProdotto(String tipologiaProdotto) {
-        this.tipologiaProdotto = tipologiaProdotto;
-    }
+	public String getCategoriaProdotto() {
+		return categoriaProdotto;
+	}
 
-    public Double getQuantitaProdotto() {
-        return quantitaProdotto;
-    }
+	public void setCategoriaProdotto(String categoriaProdotto) {
+		this.categoriaProdotto = categoriaProdotto;
+	}
 
-    public void setQuantitaProdotto(Double quantitaProdotto) {
-        this.quantitaProdotto = quantitaProdotto;
-    }
+	public String getTipologiaProdotto() {
+		return tipologiaProdotto;
+	}
 
-    public String getNoteProdotto() {
-        return noteProdotto;
-    }
+	public void setTipologiaProdotto(String tipologiaProdotto) {
+		this.tipologiaProdotto = tipologiaProdotto;
+	}
 
-    public void setNoteProdotto(String noteProdotto) {
-        this.noteProdotto = noteProdotto;
-    }
+	public BigDecimal getQuantitaProdotto() {
+		return quantitaProdotto;
+	}
 
-    public Boolean getCheckedProdotto() {
-        return checkedProdotto;
-    }
+	public void setQuantitaProdotto(BigDecimal quantitaProdotto) {
+		this.quantitaProdotto = quantitaProdotto;
+	}
 
-    public void setCheckedProdotto(Boolean checkedProdotto) {
-        this.checkedProdotto = checkedProdotto;
-    }
-	
+	public String getNoteProdotto() {
+		return noteProdotto;
+	}
+
+	public void setNoteProdotto(String noteProdotto) {
+		this.noteProdotto = noteProdotto;
+	}
+
+	public Boolean getCheckedProdotto() {
+		return checkedProdotto;
+	}
+
+	public void setCheckedProdotto(Boolean checkedProdotto) {
+		this.checkedProdotto = checkedProdotto;
+	}
+
+    public static ProdottoListaSpesaDTO fromEntity(ProdottoListaSpesa entity, ProdottoDTO prodottoDTO) {
+
+		if (entity == null) {
+			return null;
+		}
+		
+		if (prodottoDTO == null) {
+			return null;
+		}
+
+		ProdottoListaSpesaDTO dto = new ProdottoListaSpesaDTO();
+		dto.setIdProdottoLista(entity.id);
+		dto.setNomeProdotto(prodottoDTO.getNome());
+		dto.setCategoriaProdotto(prodottoDTO.getCategoriaDTO().getNome());
+		dto.setTipologiaProdotto(prodottoDTO.getTipologiaProdotto());
+		dto.setQuantitaProdotto(entity.getQuantita());
+		dto.setNoteProdotto(entity.getNote());
+		dto.setCheckedProdotto(entity.getChecked());
+			
+		return dto;
+    } 
+    
+	public ProdottoListaSpesa toEntity(ProdottoDTO dto) {
+
+	    if (dto == null) {
+	        return null;
+	    }
+	    
+		ProdottoListaSpesa entity = new ProdottoListaSpesa();
+		
+		entity.setIdProdotto(this.idProdottoLista);
+		entity.setQuantita(this.quantitaProdotto);
+		entity.setNote(this.noteProdotto);
+		entity.setChecked(this.checkedProdotto);
+		//Da terminare
+		
+		
+
+		return entity;
+	}
+    
+    
+    
+    
+    
+    
 }

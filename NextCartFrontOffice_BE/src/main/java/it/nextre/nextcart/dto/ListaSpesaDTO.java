@@ -10,6 +10,10 @@ public class ListaSpesaDTO  {
 	private LocalDate dataPrevista; 
 	private List<ProdottoListaSpesaDTO> prodotti;
 	
+	public void setIdLista(Long idLista) {
+		this.idLista = idLista;
+	}
+	
 	public Long getIdLista() {
 		return idLista;
 	}
