@@ -40,12 +40,12 @@ public class ListaSpesa extends PanacheEntity {
 	
 	@CreationTimestamp
 	@PastOrPresent
-	@Column(name = "creation_time")
+	@Column(name = "creation_time", nullable = false)
 	public LocalDateTime creationTime;
 	
 	@UpdateTimestamp
 	@PastOrPresent
-	@Column(name = "update_time")
+	@Column(name = "update_time", nullable = false)
 	public LocalDateTime updateTime;
 	
     @OneToMany(mappedBy = "listaSpesa")

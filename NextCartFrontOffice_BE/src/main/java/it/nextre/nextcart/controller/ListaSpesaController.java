@@ -1,8 +1,6 @@
 package it.nextre.nextcart.controller;
 
-
 import org.jboss.logging.Logger;
-import io.quarkus.security.Authenticated;
 import it.nextre.nextcart.dto.ListaSpesaDTO;
 import it.nextre.nextcart.dto.ProdottoListaSpesaDTO;
 import it.nextre.nextcart.service.ProdottoListaSpesaService;

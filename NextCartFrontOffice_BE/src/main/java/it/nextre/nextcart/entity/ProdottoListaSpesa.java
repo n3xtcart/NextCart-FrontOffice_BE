@@ -45,17 +45,17 @@ public class ProdottoListaSpesa extends PanacheEntity {
 	
 	@CreationTimestamp
 	@PastOrPresent
-	@Column(name = "creation_time")
+	@Column(name = "creation_time", nullable = false)
 	public LocalDateTime creationTime;
 	
 	@UpdateTimestamp
 	@PastOrPresent
-	@Column(name = "update_time")
+	@Column(name = "update_time", nullable = false)
 	public LocalDateTime updateTime;
 	
 	@NotNull
 	@ManyToOne
-    @JoinColumn(name = "id_lista_spesa", nullable = false)
+    @JoinColumn(name = "lista_spesa_id", nullable = false)
 	private ListaSpesa listaSpesa;
 	
 	public Long getIdProdotto() {

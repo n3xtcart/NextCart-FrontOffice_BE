@@ -2,6 +2,8 @@ package it.nextre.nextcart.dto;
 
 import java.util.List;
 
+import it.nextre.nextcart.entity.ProdottoListaSpesa;
+
 public class UserListaSpesaDTO  {
 	
 	private Long idUtente;         
@@ -19,6 +21,7 @@ public class UserListaSpesaDTO  {
 		this.listeSpesa = listeSpesa;
 	}
 	
+
 
 
 }

@@ -1,7 +1,6 @@
 package it.nextre.nextcart.dto;
 
 import java.math.BigDecimal;
-
 import it.nextre.nextcart.entity.ProdottoListaSpesa;
 
 public class ProdottoListaSpesaDTO  {
@@ -9,7 +8,8 @@ public class ProdottoListaSpesaDTO  {
 	private Long idProdottoLista;
 	private	Long idProdottoShop;
 	private String nomeProdotto;
-	private String categoriaProdotto; 
+	private String categoriaProdotto;
+	private Long idTipologia;
 	private String tipologiaProdotto;	//se sono grammi o se è una confezione
 	private BigDecimal quantitaProdotto;
 	private String noteProdotto;
@@ -78,8 +78,16 @@ public class ProdottoListaSpesaDTO  {
 	public void setIdProdottoShop(Long idProdottoShop) {
 		this.idProdottoShop = idProdottoShop;
 	}
+	
+	public Long getIdTipologia() {
+		return idTipologia;
+	}
 
-    public static ProdottoListaSpesaDTO doDTO(ProdottoListaSpesa entity, ProdottoDTO prodottoDTO) {
+	public void setIdTipologia(Long idTipologia) {
+		this.idTipologia = idTipologia;
+	}
+
+    public static ProdottoListaSpesaDTO toDTO(ProdottoListaSpesa entity, ProdottoDTO prodottoDTO) {
 
 		if (entity == null) {
 			return null;
@@ -101,18 +109,13 @@ public class ProdottoListaSpesaDTO  {
 		return dto;
     } 
     
-	public ProdottoListaSpesa toEntity(ProdottoDTO dto) {
+	public ProdottoListaSpesa toEntity() {
 
-	    if (dto == null) {
-	        return null;
-	    }
 	    
 		ProdottoListaSpesa entity = new ProdottoListaSpesa();
 		
-		entity.setIdProdotto(this.idProdottoLista);
-		entity.setQuantita(this.quantitaProdotto);
-		entity.setNote(this.noteProdotto);
-		entity.setChecked(this.checkedProdotto);
+		entity.setIdProdotto(this.getIdProdottoShop());
+		entity.setIdTipologia(this.getIdTipologia());
 		//Da terminare
 		
 		
