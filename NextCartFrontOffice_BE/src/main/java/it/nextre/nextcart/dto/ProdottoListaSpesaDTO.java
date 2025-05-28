@@ -5,15 +5,15 @@ import java.math.BigDecimal;
 import it.nextre.nextcart.entity.ProdottoListaSpesa;
 
 public class ProdottoListaSpesaDTO  {
-	
 
 	private Long idProdottoLista;
-	public String nomeProdotto;
+	private	Long idProdottoShop;
+	private String nomeProdotto;
 	private String categoriaProdotto; 
-	public String tipologiaProdotto;	//se sono grammi o se è una confezione
-	public BigDecimal quantitaProdotto;
-	public String noteProdotto;
-	public Boolean checkedProdotto;
+	private String tipologiaProdotto;	//se sono grammi o se è una confezione
+	private BigDecimal quantitaProdotto;
+	private String noteProdotto;
+	private Boolean checkedProdotto;
 	
 	public Long getIdProdottoLista() {
 		return idProdottoLista;
@@ -70,8 +70,16 @@ public class ProdottoListaSpesaDTO  {
 	public void setCheckedProdotto(Boolean checkedProdotto) {
 		this.checkedProdotto = checkedProdotto;
 	}
+	
+	public Long getIdProdottoShop() {
+		return idProdottoShop;
+	}
 
-    public static ProdottoListaSpesaDTO fromEntity(ProdottoListaSpesa entity, ProdottoDTO prodottoDTO) {
+	public void setIdProdottoShop(Long idProdottoShop) {
+		this.idProdottoShop = idProdottoShop;
+	}
+
+    public static ProdottoListaSpesaDTO doDTO(ProdottoListaSpesa entity, ProdottoDTO prodottoDTO) {
 
 		if (entity == null) {
 			return null;

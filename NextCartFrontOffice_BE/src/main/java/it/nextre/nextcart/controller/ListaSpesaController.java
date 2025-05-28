@@ -20,8 +20,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 
-
-@Authenticated 
+@RolesAllowed("user")
 @Path("/dashboard")
 public class ListaSpesaController {
 	
@@ -41,7 +40,6 @@ public class ListaSpesaController {
     @Path("/liste")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("user")
     public Response createListaSpesa(ListaSpesaDTO listaSpesaDto) {
        return null;
     }
@@ -49,7 +47,6 @@ public class ListaSpesaController {
     @GET
     @Path("/liste")
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("user")
     public Response getListeSpesaByUser() {	//L'id dell'utente lo si recupera dal context
     	return null;
     }
@@ -59,7 +56,6 @@ public class ListaSpesaController {
     @Path("liste/{listaId}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("user")
     public Response updateListaSpesa(ListaSpesaDTO listaSpesaDTO) {
     	return null;
     }
@@ -67,7 +63,6 @@ public class ListaSpesaController {
     @DELETE
     @Path("liste/{listaId}")
 	@Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("user")
     public Response deleteListaSpesa(@PathParam("listaId") Long listaId) {
     	return null;
     }
@@ -75,7 +70,7 @@ public class ListaSpesaController {
     @GET
     @Path("liste/{listaId}")
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("user")
+
     public Response getListaSpesa(@PathParam("listaId") Long listaId) {
     	return null;
     }
@@ -84,7 +79,6 @@ public class ListaSpesaController {
     @Path("liste/{listaId}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("user")
     public Response addProdottoToLista(@PathParam("listaId") Long listaId, ProdottoListaSpesaDTO prodottoDTO) {
     	return null;
     }
@@ -92,7 +86,6 @@ public class ListaSpesaController {
     @DELETE
     @Path("liste/{listaId}/prodotti/{prodottoId}")
 	@Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("user")
     public Response removeProdottoFromLista(@PathParam("listaId") Long listaId, @PathParam("prodottoId") Long prodottoId) {
     	return null;
     }
@@ -101,7 +94,6 @@ public class ListaSpesaController {
     @Path("liste/{listaId}/prodotti/{listaId}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("user")
     public Response updateProdotto(@PathParam("listaId") Long listaId, ProdottoListaSpesaDTO prodottoDTO ) {
     	return null;
     }
