@@ -99,8 +99,10 @@ public class ProdottoListaSpesaDTO  {
 
 		ProdottoListaSpesaDTO dto = new ProdottoListaSpesaDTO();
 		dto.setIdProdottoLista(entity.id);
+		dto.setIdProdottoShop(prodottoDTO.getId());
 		dto.setNomeProdotto(prodottoDTO.getNome());
 		dto.setCategoriaProdotto(prodottoDTO.getCategoriaDTO().getNome());
+		dto.setIdTipologia(entity.getIdTipologia());
 		dto.setTipologiaProdotto(prodottoDTO.getTipologiaProdotto());
 		dto.setQuantitaProdotto(entity.getQuantita());
 		dto.setNoteProdotto(entity.getNote());
@@ -114,11 +116,9 @@ public class ProdottoListaSpesaDTO  {
 	    
 		ProdottoListaSpesa entity = new ProdottoListaSpesa();
 		
-		entity.setIdProdotto(this.getIdProdottoShop());
-		entity.setIdTipologia(this.getIdTipologia());
-		//Da terminare
-		
-		
+		entity.setQuantita(this.quantitaProdotto);
+		entity.setChecked(this.checkedProdotto);
+		entity.setNote(this.noteProdotto);
 
 		return entity;
 	}
