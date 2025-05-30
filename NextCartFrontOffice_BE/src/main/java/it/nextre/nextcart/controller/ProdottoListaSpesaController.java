@@ -16,84 +16,76 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 
 @RolesAllowed("user")
-@Path("/dashboardProdotti")
+@Path("/prodotti-lista")
 public class ProdottoListaSpesaController {
-	
-	@Inject
-	private Logger log;
-	
-	@Inject
-	ProdottoListaSpesaService prodottoListaSpesaService;
-	
+
+    @Inject
+    private Logger log;
+
+    @Inject
+    ProdottoListaSpesaService prodottoListaSpesaService;
+
     @Inject
     UserService userService;
-    
+
     @Inject
     ListaSpesaService listaSpesaService;
-	 
-	@Inject
-	SecurityContext securityContext;
-	
-	public ProdottoListaSpesaController(Logger log) {
-		this.log = log;
-	}
-        
+
+    @Inject
+    SecurityContext securityContext;
+
+    public ProdottoListaSpesaController(Logger log) {
+        this.log = log;
+    }
     
-    // aggiunta prodotto ad una lista in particolare
+    /*
+     * Da aggiungere controllo token per autenticazione
+     */
+
+    //  Aggiunta prodotto ad una lista spesa
     @POST
     @Path("liste/{listaId}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-    public Response addProdottoToLista(@PathParam("listaId") Long listaId,ProdottoListaSpesaDTO prodottoDTO, @Context SecurityContext securityContext) {
-		String email = securityContext.getUserPrincipal() == null
-		? "anonimo"
-		: securityContext.getUserPrincipal().getName();
-		
-		prodottoListaSpesaService.addProdottoToLista(listaId, email, prodottoDTO);
-		return Response.status(Response.Status.CREATED).build();
-		}
-    
-    
-    // eliminazione prodotto da una lista in particolare
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addProdottoToLista( @PathParam("listaId") Long listaId, @QueryParam("email") String email, ProdottoListaSpesaDTO dto) {
+        
+        log.infof("Richiesta aggiunta prodotto alla lista ID %d da parte dell'utente %s. Dati prodotto: %s", listaId, email, dto);
+        ProdottoListaSpesaDTO result = prodottoListaSpesaService.addProdottoToLista(listaId, email, dto);
+        log.infof("Prodotto aggiunto con successo alla lista ID %d. ID prodotto lista: %d", listaId, result.getIdProdottoLista());
+        return Response.status(Response.Status.CREATED).entity(result).build();
+    }
+
+    //  Rimozione prodotto da una lista spesa
     @DELETE
-    @Path("liste/{listaId}/prodotti/{prodottoId}")
-	@Produces(MediaType.APPLICATION_JSON)
-    public Response removeProdottoFromLista(@PathParam("listaId") Long listaId,  @PathParam("prodottoId") Long prodottoId, @Context SecurityContext securityContext) {
-		String email = securityContext.getUserPrincipal() == null
-		? "anonimo"
-		: securityContext.getUserPrincipal().getName();
-		
-		prodottoListaSpesaService.removeProdotto(listaId, prodottoId, email);
-		return Response.noContent().build();
-		}
-	
-    
-    // aggiornamento prodotto di una lista in particolare [flag]
+    @Path("/{listaId}/prodotto/{prodottoId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response removeProdotto( @PathParam("listaId") Long listaId, @PathParam("prodottoId") Long prodottoId, @QueryParam("email") String email) {
+
+        log.infof("Richiesta rimozione prodotto ID %d dalla lista ID %d da parte dell'utente %s", prodottoId, listaId, email);
+        prodottoListaSpesaService.removeProdotto(listaId, prodottoId, email);
+        log.infof("Prodotto ID %d rimosso con successo dalla lista ID %d", prodottoId, listaId);
+        return Response.noContent().build();
+    }
+
+    //  Aggiornamento prodotto nella lista spesa (es. flag checked)
     @PUT
-    @Path("liste/{listaId}/prodotti/{prodottoId}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-    public Response updateProdotto(@PathParam("listaId") Long listaId, @PathParam("prodottoId") Long prodottoId, ProdottoListaSpesaDTO prodottoDTO, @Context SecurityContext securityContext) {
-		String email = securityContext.getUserPrincipal() == null
-		? "anonimo"
-		: securityContext.getUserPrincipal().getName();
-		
-		prodottoListaSpesaService.updateProdotto(listaId, prodottoId, email, prodottoDTO);
-		return Response.ok().build();
-		}
+    @Path("/{listaId}/prodotto/{prodottoId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateProdotto( @PathParam("listaId") Long listaId, @PathParam("prodottoId") Long prodottoId, @QueryParam("email") String email, ProdottoListaSpesaDTO dto) {
+
+        log.infof("Richiesta aggiornamento prodotto ID %d nella lista ID %d da parte dell'utente %s. Nuovi dati: %s", prodottoId, listaId, email, dto);
+        ProdottoListaSpesaDTO updated = prodottoListaSpesaService.updateProdotto(listaId, prodottoId, email, dto);
+        log.infof("Prodotto ID %d aggiornato con successo nella lista ID %d", prodottoId, listaId);
+        return Response.ok(updated).build();
+    }
+
     
-    /* 
-    @PUT
-    @Path("liste/{listaId}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-    public Response updateListaSpesa(ListaSpesaDTO listaSpesaDTO) {
-    	return null;
-    }*/
 }

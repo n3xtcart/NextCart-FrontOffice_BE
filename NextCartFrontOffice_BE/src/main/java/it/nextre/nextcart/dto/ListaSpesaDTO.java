@@ -6,7 +6,8 @@ import java.util.List;
 public class ListaSpesaDTO  {
 	
 	private Long idLista;
-	private String nomeLista;       
+	private String nomeLista;
+	private String email;
 	private LocalDate dataPrevista; 
 	private List<ProdottoListaSpesaDTO> prodotti;
 	
@@ -40,6 +41,14 @@ public class ListaSpesaDTO  {
 
 	public void setProdotti(List<ProdottoListaSpesaDTO> prodotti) {
 		this.prodotti = prodotti;
+	}
+	
+	public String getUserEmail() {
+		return email;
+	}
+
+	public void setUserEmail(String email) {
+		this.email = email;
 	}
 
 }
