@@ -14,8 +14,7 @@ public interface ListaSpesaService {
 
     ListaSpesaDTO getListaByIdAndUser(Long listaId, Long userId);
 
-    void deleteLista(String email, Long userId);
+    boolean deleteLista(String email, Long listaId);
 
-	List<ListaSpesaDTO> findByUserEmail(String email);
 
 }

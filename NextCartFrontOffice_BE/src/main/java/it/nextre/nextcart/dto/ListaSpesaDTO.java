@@ -7,7 +7,8 @@ import it.nextre.nextcart.entity.ListaSpesa;
 public class ListaSpesaDTO {
 	
 	private Long idLista;
-	private String nomeLista;       
+	private String nomeLista;
+	private String email;
 	private LocalDate dataPrevista; 
 	
 	public Long getIdLista() {
@@ -39,6 +40,14 @@ public class ListaSpesaDTO {
 	    dto.setDataPrevista(entity.getDataPrevista());
 	    
 	    return dto;
+	}
+	
+	public String getUserEmail() {
+		return email;
+	}
+
+	public void setUserEmail(String email) {
+		this.email = email;
 	}
 	
     public ListaSpesa toEntity() {
