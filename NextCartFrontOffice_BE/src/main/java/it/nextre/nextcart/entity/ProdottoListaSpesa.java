@@ -23,17 +23,17 @@ public class ProdottoListaSpesa extends PanacheEntity {
 	
 	@NotNull
 	@Min(value = 1)
-	@Column(name = "id_prodotto", nullable = false)
-	private Long idProdotto;
+	@Column(name = "id_prodotto_shop", nullable = false)
+	private Long idProdottoShop;
 	
 	@NotNull
 	@DecimalMin(value = "0.01")
 	@Column(name = "quantita", precision = 10, scale = 2, nullable = false)
 	private BigDecimal quantita;
 	
-	@NotNull
-	@Column(name = "id_tipologia", nullable = false)
-	private Long idTipologia;
+//	@NotNull
+//	@Column(name = "id_tipologia", nullable = false)
+//	private Long idTipologia;
 	
 	@Size(max = 255)
 	@Column(name = "note", length = 255)
@@ -59,11 +59,11 @@ public class ProdottoListaSpesa extends PanacheEntity {
 	private ListaSpesa listaSpesa;
 	
 	public Long getIdProdotto() {
-		return idProdotto;
+		return idProdottoShop;
 	}
 
-	public void setIdProdotto(Long idProdotto) {
-		this.idProdotto = idProdotto;
+	public void setIdProdotto(Long idProdottoShop) {
+		this.idProdottoShop = idProdottoShop;
 	}
 
 	public BigDecimal getQuantita() {
@@ -72,14 +72,6 @@ public class ProdottoListaSpesa extends PanacheEntity {
 
 	public void setQuantita(BigDecimal quantita) {
 		this.quantita = quantita;
-	}
-
-	public Long getIdTipologia() {
-		return idTipologia;
-	}
-
-	public void setIdTipologia(Long idTipologia) {
-		this.idTipologia = idTipologia;
 	}
 
 	public String getNote() {
@@ -124,9 +116,9 @@ public class ProdottoListaSpesa extends PanacheEntity {
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(checked, creationTime, idProdotto, idTipologia, listaSpesa, note, quantita, updateTime);
+		return Objects.hash(checked, creationTime, idProdottoShop, listaSpesa, note, quantita, updateTime);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -137,16 +129,16 @@ public class ProdottoListaSpesa extends PanacheEntity {
 			return false;
 		ProdottoListaSpesa other = (ProdottoListaSpesa) obj;
 		return Objects.equals(checked, other.checked) && Objects.equals(creationTime, other.creationTime)
-				&& Objects.equals(idProdotto, other.idProdotto) && Objects.equals(idTipologia, other.idTipologia)
-				&& Objects.equals(listaSpesa, other.listaSpesa) && Objects.equals(note, other.note)
-				&& Objects.equals(quantita, other.quantita) && Objects.equals(updateTime, other.updateTime);
+				&& Objects.equals(idProdottoShop, other.idProdottoShop) && Objects.equals(listaSpesa, other.listaSpesa)
+				&& Objects.equals(note, other.note) && Objects.equals(quantita, other.quantita)
+				&& Objects.equals(updateTime, other.updateTime);
 	}
 	
 	@Override
 	public String toString() {
-		return "ProdottoListaSpesa [idProdotto=" + idProdotto + ", quantita=" + quantita + ", idTipologia="
-				+ idTipologia + ", note=" + note + ", checked=" + checked + ", creationTime=" + creationTime
-				+ ", updateTime=" + updateTime + ", listaSpesa=" + listaSpesa + "]";
+		return "ProdottoListaSpesa [idProdottoShop=" + idProdottoShop + ", quantita=" + quantita + ", note=" + note
+				+ ", checked=" + checked + ", creationTime=" + creationTime + ", updateTime=" + updateTime
+				+ ", listaSpesa=" + listaSpesa + "]";
 	}
-	
+
 }
