@@ -58,11 +58,11 @@ public class ProdottoListaSpesa extends PanacheEntity {
     @JoinColumn(name = "lista_spesa_id", nullable = false)
 	private ListaSpesa listaSpesa;
 	
-	public Long getIdProdotto() {
+	public Long getIdProdottoShop() {
 		return idProdottoShop;
 	}
 
-	public void setIdProdotto(Long idProdottoShop) {
+	public void setIdProdottoShop(Long idProdottoShop) {
 		this.idProdottoShop = idProdottoShop;
 	}
 

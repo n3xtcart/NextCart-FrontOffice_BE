@@ -1,16 +1,15 @@
 package it.nextre.nextcart.dto;
 
 import java.time.LocalDate;
-import java.util.List;
+import it.nextre.nextcart.entity.ListaSpesa;
 
-public class ListaSpesaDetailDTO {
+public class ListaSpesaUpdateDTO {
 	
 	private Long idLista;
-	private String nomeLista;       
-	private LocalDate dataPrevista; 
-	private List<ProdottoListaSpesaResponseDTO> prodotti;
+    private String nomeLista;
+    private LocalDate dataPrevista;
 	
-	public Long getIdLista() {
+    public Long getIdLista() {
 		return idLista;
 	}
 	public void setIdLista(Long idLista) {
@@ -28,10 +27,9 @@ public class ListaSpesaDetailDTO {
 	public void setDataPrevista(LocalDate dataPrevista) {
 		this.dataPrevista = dataPrevista;
 	}
-	public List<ProdottoListaSpesaResponseDTO> getProdotti() {
-		return prodotti;
-	}
-	public void setProdotti(List<ProdottoListaSpesaResponseDTO> prodotti) {
-		this.prodotti = prodotti;
-	}
+	
+    public void toEntity(ListaSpesa entity) {
+        entity.setNome(this.nomeLista);
+        entity.setDataPrevista(this.dataPrevista);
+    }
 }
