@@ -1,20 +1,20 @@
 package it.nextre.nextcart.service;
 
-import java.util.List;
-
-import it.nextre.nextcart.dto.ListaSpesaDTO;
+import it.nextre.nextcart.dto.ListaSpesaRequestDTO;
+import it.nextre.nextcart.dto.ListaSpesaResponseDTO;
+import it.nextre.nextcart.dto.UserListaSpesaDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public interface ListaSpesaService {
 	
-    ListaSpesaDTO createLista(String email, ListaSpesaDTO dto);
+    ListaSpesaRequestDTO createLista(ListaSpesaRequestDTO dto);
 
-    List<ListaSpesaDTO> getListeByUser(Long userId);
+    UserListaSpesaDTO getListeByUser(Long userId);
 
-    ListaSpesaDTO getListaByIdAndUser(Long listaId, Long userId);
+    ListaSpesaResponseDTO getListaByIdAndUser(Long listaId, Long userId);
 
-    boolean deleteLista(String email, Long listaId);
+    boolean deleteLista(Long listaId);
 
 
 }

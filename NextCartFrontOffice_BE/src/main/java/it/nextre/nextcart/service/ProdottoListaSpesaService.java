@@ -1,16 +1,16 @@
 package it.nextre.nextcart.service;
 
-import it.nextre.nextcart.dto.ProdottoListaSpesaDTO;
+import it.nextre.nextcart.dto.ProdottoListaSpesaRequestDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public interface ProdottoListaSpesaService {
 
-	    ProdottoListaSpesaDTO addProdottoToLista(Long listaId, String email, ProdottoListaSpesaDTO dto);
+	    ProdottoListaSpesaRequestDTO addProdottoToLista(Long listaId,ProdottoListaSpesaRequestDTO dto);
 
-	    void removeProdotto(Long listaId, Long prodottoId, String email);
+	    boolean removeProdotto(Long listaId, Long prodottoId);
 
-	    ProdottoListaSpesaDTO updateProdotto(Long listaId, Long prodottoId, String email, ProdottoListaSpesaDTO dto);
+	    ProdottoListaSpesaRequestDTO updateProdotto(Long listaId, Long prodottoId, ProdottoListaSpesaRequestDTO dto);
 	}
 
 

@@ -3,7 +3,7 @@ package it.nextre.nextcart.dto;
 import java.time.LocalDate;
 import it.nextre.nextcart.entity.ListaSpesa;
 
-public class ListaSpesaUpdateDTO {
+public class ListaSpesaRequestDTO {
 	
 	private Long idLista;
     private String nomeLista;

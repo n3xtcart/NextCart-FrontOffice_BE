@@ -1,0 +1,48 @@
+package it.nextre.nextcart.service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import it.nextre.nextcart.dto.CategoriaDTO;
+
+public class ClientCat implements ServizioCategoria {
+	
+	private final List<CategoriaDTO> categorie = new ArrayList<>();
+
+	
+	public ClientCat() {
+        categorie.add(new CategoriaDTO(1L, "Carne", "carne.jpg"));
+        categorie.add(new CategoriaDTO(2L, "Frutta & Verdura", "frutta_verdura.jpg"));
+        categorie.add(new CategoriaDTO(3L, "Uova & Latticini", "uova_latticini.jpg"));
+        categorie.add(new CategoriaDTO(4L, "Igiene", "igiene.jpg"));
+        categorie.add(new CategoriaDTO(5L, "Salumi & Formaggi", "salumi_formaggi.jpg"));
+        categorie.add(new CategoriaDTO(6L, "Pesce", "pesce.jpg"));
+    }
+	
+	
+
+	public List<CategoriaDTO> getCategorie() {
+		return categorie;
+	}
+
+
+	@Override
+	public Optional<CategoriaDTO> trovaPerId(Long id) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<CategoriaDTO> trovaPerNome(String nome) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
+	}
+
+	@Override
+	public List<CategoriaDTO> trovaTutte() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

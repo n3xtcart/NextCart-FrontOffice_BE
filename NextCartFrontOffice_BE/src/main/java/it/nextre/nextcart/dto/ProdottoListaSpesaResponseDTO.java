@@ -10,7 +10,7 @@ public class ProdottoListaSpesaResponseDTO {
     private Long idProdottoShop;
     private String nomeProdotto;
     private String categoriaProdotto;
-    //private String tipologiaProdotto;
+    private String tipologiaProdotto;
     private BigDecimal quantitaProdotto;
     private String noteProdotto;
     private Boolean checkedProdotto;
@@ -80,7 +80,15 @@ public class ProdottoListaSpesaResponseDTO {
 		this.quantitaDisponibileStock = quantitaDisponibileStock;
 	}
 
-  public static ProdottoListaSpesaResponseDTO fromEntity(ProdottoListaSpesa prodotto, ProdottoDTO prodottoDTO) {
+  public String getTipologiaProdotto() {
+		return tipologiaProdotto;
+	}
+
+	public void setTipologiaProdotto(String tipologiaProdotto) {
+		this.tipologiaProdotto = tipologiaProdotto;
+	}
+
+public static ProdottoListaSpesaResponseDTO fromEntity(ProdottoListaSpesa prodotto, ProdottoDTO prodottoDTO) {
 	  
 	  if (prodotto == null) return null;
 	  if (prodottoDTO == null) return null;
@@ -91,7 +99,7 @@ public class ProdottoListaSpesaResponseDTO {
       dto.setQuantitaProdotto(prodotto.getQuantita());
       dto.setNoteProdotto(prodotto.getNote());
       dto.setCheckedProdotto(prodotto.getChecked());
-
+      dto.setTipologiaProdotto(prodotto.getTipologiaProdotto());
       dto.setNomeProdotto(prodottoDTO.getNome());
       dto.setCategoriaProdotto(prodottoDTO.getCategoriaDTO().getNome());
       dto.setQuantitaDisponibileStock(prodottoDTO.getQuantita());

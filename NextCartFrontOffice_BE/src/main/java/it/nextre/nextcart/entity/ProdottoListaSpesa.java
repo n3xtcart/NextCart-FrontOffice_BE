@@ -31,9 +31,9 @@ public class ProdottoListaSpesa extends PanacheEntity {
 	@Column(name = "quantita", precision = 10, scale = 2, nullable = false)
 	private BigDecimal quantita;
 	
-//	@NotNull
-//	@Column(name = "id_tipologia", nullable = false)
-//	private Long idTipologia;
+	@NotNull
+	@Column(name = "tipologia_prodotto", nullable = false)
+	private String tipologiaProdotto;
 	
 	@Size(max = 255)
 	@Column(name = "note", length = 255)
@@ -114,9 +114,18 @@ public class ProdottoListaSpesa extends PanacheEntity {
 		this.listaSpesa = listaSpesa;
 	}
 	
+	public String getTipologiaProdotto() {
+		return tipologiaProdotto;
+	}
+
+	public void setTipologiaProdotto(String tipologiaProdotto) {
+		this.tipologiaProdotto = tipologiaProdotto;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(checked, creationTime, idProdottoShop, listaSpesa, note, quantita, updateTime);
+		return Objects.hash(checked, creationTime, idProdottoShop, listaSpesa, note, quantita, tipologiaProdotto,
+				updateTime);
 	}
 
 	@Override
@@ -131,14 +140,17 @@ public class ProdottoListaSpesa extends PanacheEntity {
 		return Objects.equals(checked, other.checked) && Objects.equals(creationTime, other.creationTime)
 				&& Objects.equals(idProdottoShop, other.idProdottoShop) && Objects.equals(listaSpesa, other.listaSpesa)
 				&& Objects.equals(note, other.note) && Objects.equals(quantita, other.quantita)
+				&& Objects.equals(tipologiaProdotto, other.tipologiaProdotto)
 				&& Objects.equals(updateTime, other.updateTime);
 	}
-	
+
 	@Override
 	public String toString() {
-		return "ProdottoListaSpesa [idProdottoShop=" + idProdottoShop + ", quantita=" + quantita + ", note=" + note
-				+ ", checked=" + checked + ", creationTime=" + creationTime + ", updateTime=" + updateTime
-				+ ", listaSpesa=" + listaSpesa + "]";
+		return "ProdottoListaSpesa [idProdottoShop=" + idProdottoShop + ", quantita=" + quantita
+				+ ", tipologiaProdotto=" + tipologiaProdotto + ", note=" + note + ", checked=" + checked
+				+ ", creationTime=" + creationTime + ", updateTime=" + updateTime + ", listaSpesa=" + listaSpesa + "]";
 	}
+
+	
 
 }
