@@ -1,56 +1,63 @@
 package it.nextre.nextcart.controller;
 
-import java.util.List;
 
+
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.jboss.logging.Logger;
 
-import it.nextre.aut.service.UserService;
-import it.nextre.nextcart.dto.ListaSpesaDTO;
+import it.nextre.nextcart.dto.ListaSpesaRequestDTO;
+import it.nextre.nextcart.dto.UserListaSpesaDTO;
 import it.nextre.nextcart.service.ListaSpesaService;
-import it.nextre.nextcart.service.ProdottoListaSpesaService;
+import it.nextre.nextcart.service.ListaSpesaServiceImpl;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.SecurityContext;
+
 
 @RolesAllowed("user")
 @Path("/liste-spesa")
 public class ListaSpesaController {
     
-    @Inject
     private Logger log;
+    private final ListaSpesaService listaSpesaService = new ListaSpesaServiceImpl();
     
-    @Inject
-    ProdottoListaSpesaService prodottoListaSpesaService;
-    
-    @Inject
-    UserService userService;
-    
-    @Inject
-    ListaSpesaService listaSpesaService;
-     
-    @Inject
-    SecurityContext securityContext;
     
     public ListaSpesaController(Logger log) {
-        this.log = log;
+		this.log = log;
     }
+    
+    @Inject
+    JsonWebToken jwt;
+    
+    
+    
     
     /*
      * Da aggiungere controllo token per autenticazione
      */
     
     // ritorno tutte le liste di un utente
-    @GET
+    
+    @POST
+    @Path("/nuova-lista")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createLista(ListaSpesaRequestDTO dto) {
+    	
+        log.info("Richiesta POST per creare una nuova lista per l'utente con id: " + jwt.getClaim("id"));
+        
+        UserListaSpesaDTO created = listaSpesaService.createLista(dto);
+        
+        log.info("Lista creata con successo: " + created);
+        
+        return Response.status(Response.Status.CREATED).entity(created).build();
+    }
+   /* @GET
     @Path("/user/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getListeByUser(@PathParam("userId") Long userId) {
@@ -101,5 +108,5 @@ public class ListaSpesaController {
             log.warn("Lista con ID " + listaId + " non trovata o non eliminabile.");
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-    }
+    }*/
 }

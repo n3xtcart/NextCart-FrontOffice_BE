@@ -29,20 +29,14 @@ public class ClientCat implements ServizioCategoria {
 
 	@Override
 	public Optional<CategoriaDTO> trovaPerId(Long id) {
-		// TODO Auto-generated method stub
+		for (int i = 0; i < categorie.size(); i++) {
+			if (id.equals(categorie.get(i).getId())) {
+				return Optional.ofNullable(categorie.get(i));
+			}
+		}
+
 		return Optional.empty();
 	}
 
-	@Override
-	public Optional<CategoriaDTO> trovaPerNome(String nome) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
-	}
-
-	@Override
-	public List<CategoriaDTO> trovaTutte() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

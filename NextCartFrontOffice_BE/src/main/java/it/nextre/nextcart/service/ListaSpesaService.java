@@ -8,7 +8,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public interface ListaSpesaService {
 	
-    ListaSpesaRequestDTO createLista(ListaSpesaRequestDTO dto);
+	UserListaSpesaDTO createLista(ListaSpesaRequestDTO dto);
 
     UserListaSpesaDTO getListeByUser(Long userId);
 

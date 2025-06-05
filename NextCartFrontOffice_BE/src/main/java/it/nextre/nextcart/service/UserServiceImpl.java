@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import it.nextre.aut.dto.LoginInfo;
+import it.nextre.aut.dto.TokenJwtDTO;
 import it.nextre.aut.dto.UserDTO;
 import it.nextre.aut.service.UserService;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -14,7 +15,31 @@ public class UserServiceImpl implements UserService {
 
     private final Map<String, UserDTO> userDatabase = new HashMap<>();
 
-    @Override
+	@Override
+	public TokenJwtDTO login(LoginInfo loginInfo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TokenJwtDTO register(UserDTO userDTO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(UserDTO userDTO) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(UserDTO userDTO) {
+		// TODO Auto-generated method stub
+		
+	}
+
+    /*@Override
     public String login(LoginInfo loginInfo) {
         UserDTO user = userDatabase.get(loginInfo.getEmail());
 
@@ -75,5 +100,5 @@ public class UserServiceImpl implements UserService {
                 .mapToLong(u -> u.getId() != null ? u.getId() : 0)
                 .max()
                 .orElse(0) + 1;
-    }
+    }*/
 }

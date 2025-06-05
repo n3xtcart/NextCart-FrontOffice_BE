@@ -7,7 +7,7 @@ public class ListaSpesaRequestDTO {
 	
 	private Long idLista;
     private String nomeLista;
-    private LocalDate dataPrevista;
+    private String dataPrevista;
 	
     public Long getIdLista() {
 		return idLista;
@@ -21,15 +21,16 @@ public class ListaSpesaRequestDTO {
 	public void setNomeLista(String nomeLista) {
 		this.nomeLista = nomeLista;
 	}
-	public LocalDate getDataPrevista() {
+	public String getDataPrevista() {
 		return dataPrevista;
 	}
-	public void setDataPrevista(LocalDate dataPrevista) {
+	public void setDataPrevista(String dataPrevista) {
 		this.dataPrevista = dataPrevista;
 	}
 	
-    public void toEntity(ListaSpesa entity) {
+	
+    /*public void toEntity(ListaSpesa entity) {
         entity.setNome(this.nomeLista);
         entity.setDataPrevista(this.dataPrevista);
-    }
+    }*/
 }
