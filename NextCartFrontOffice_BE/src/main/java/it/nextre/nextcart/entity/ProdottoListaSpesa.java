@@ -12,9 +12,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -22,17 +23,18 @@ import jakarta.validation.constraints.Size;
 public class ProdottoListaSpesa extends PanacheEntity {
 	
 	@NotNull
-	@Min(value = 1)
+	@Positive
 	@Column(name = "id_prodotto_shop", nullable = false)
 	private Long idProdottoShop;
 	
 	@NotNull
-	@DecimalMin(value = "0.01")
+	@Positive
 	@Column(name = "quantita", precision = 10, scale = 2, nullable = false)
 	private BigDecimal quantita;
 	
 	@NotNull
 	@Column(name = "tipologia_prodotto", nullable = false)
+	@Pattern(regexp = "^[A-Za-zÀ-ÿ0-9_ ]+$")
 	private String tipologiaProdotto;
 	
 	@Size(max = 255)

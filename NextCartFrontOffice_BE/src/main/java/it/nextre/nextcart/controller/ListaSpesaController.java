@@ -12,6 +12,7 @@ import it.nextre.nextcart.service.ListaSpesaService;
 import it.nextre.nextcart.service.ListaSpesaServiceImpl;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -42,7 +43,7 @@ public class ListaSpesaController {
     @Path("/nuova-lista")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createLista(ListaSpesaRequestDTO dto) {
+    public Response createLista(@Valid ListaSpesaRequestDTO dto) {
     	
         log.info("Richiesta POST per creare una nuova lista per l'utente con id: " + jwt.getClaim("id"));
         
