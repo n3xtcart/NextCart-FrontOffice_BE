@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import it.nextre.nextcart.dto.CategoriaDTO;
+import jakarta.enterprise.context.ApplicationScoped;
 
+@ApplicationScoped
 public class ClientCat implements ServizioCategoria {
 	
 	private final List<CategoriaDTO> categorie = new ArrayList<>();

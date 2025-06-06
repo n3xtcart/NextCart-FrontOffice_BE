@@ -15,16 +15,24 @@ import it.nextre.nextcart.dto.ProdottoDTO;
 import it.nextre.nextcart.dto.UserListaSpesaDTO;
 import it.nextre.nextcart.entity.ListaSpesa;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 @ApplicationScoped
 public class ListaSpesaServiceImpl implements ListaSpesaService {
 
-    private Logger log; 
-    private  ListaSpesaRepository repo;
-    private ClientProd prodotti;
+    @Inject
+    Logger log;
+
+    @Inject
+    ListaSpesaRepository repo;
+
+    @Inject
+    ClientProd prodotti;
 
 
 	@Override
+	@Transactional
 	public UserListaSpesaDTO createLista(ListaSpesaRequestDTO dto) {
 		
 		ListaSpesa listaSpesa = dto.toEntity();
@@ -41,6 +49,7 @@ public class ListaSpesaServiceImpl implements ListaSpesaService {
 	
 
 	@Override
+	@Transactional
 	public UserListaSpesaDTO getListeByUser(Long userId) {
 		
 		// TODO: controllo se la lista non è vuota
@@ -49,6 +58,7 @@ public class ListaSpesaServiceImpl implements ListaSpesaService {
 	}
 
 	@Override
+	@Transactional
 	public ListaSpesaResponseDTO getListaByIdAndUser(Long userId, Long listaId) {
 		
 		Optional<ListaSpesa> listaTrovata = repo.findByIdUtenteAndIdLista(listaId, userId);	
@@ -63,6 +73,7 @@ public class ListaSpesaServiceImpl implements ListaSpesaService {
 	}
 
 	@Override
+	@Transactional
 	public boolean deleteLista(Long listaId) {
 
 		// TODO: controllo se la lista è presente 
