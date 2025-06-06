@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import it.nextre.nextcart.entity.ListaSpesa;
 import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -21,7 +22,9 @@ public class ListaSpesaRequestDTO {
 	@FutureOrPresent
     private LocalDate dataPrevista;
 	
-    public Long getIdLista() {
+	
+
+	public Long getIdLista() {
 		return idLista;
 	}
 	public void setIdLista(Long idLista) {

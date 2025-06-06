@@ -7,14 +7,20 @@ import java.util.Optional;
 
 import it.nextre.nextcart.dto.CategoriaDTO;
 import it.nextre.nextcart.dto.ProdottoDTO;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
+@ApplicationScoped
 public class ClientProd implements ServizioProdotto {
 	
     private final List<ProdottoDTO> prodotti = new ArrayList<>();
-    private final ClientCat clientCat = null;
-
+    
+    @Inject
+    ClientCat clientCat;
 	
-	public ClientProd() {
+    @PostConstruct
+    public void init() {
 		
 	        // Carne
 			CategoriaDTO carne = clientCat.trovaPerId(1L).get();
