@@ -5,6 +5,8 @@ import it.nextre.nextcart.dto.ProdottoListaSpesaRequestDTO;
 import it.nextre.nextcart.service.ProdottoListaSpesaService;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.POST;
@@ -14,7 +16,6 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
 
 //@RolesAllowed("user")
 @Path("/liste/{idLista}/prodotti")
@@ -32,15 +33,25 @@ public class ProdottoListaSpesaController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response creaProdotto (@PathParam("idLista") Long idLista, @Valid ProdottoListaSpesaRequestDTO prodottoDto) {
+    public Response addProdotto (@PathParam("idLista")  @NotNull String idLista, @Valid ProdottoListaSpesaRequestDTO prodottoDto) {
+    	
+    	Long idListaParse = 0L;
     	
     	if (idLista == null || prodottoDto == null) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                           .entity("ID Lista e prodotto non possono essere nulli.")
-                           .build();
+    		throw new BadRequestException("ID Lista e prodotto non possono essere nulli.");
         }
     	
-    	var prodottoAggiunto = prodottoListaSpesaService.addProdottoToLista(idLista, prodottoDto);
+    	try {
+    		idListaParse = Long.parseLong(idLista);
+    		
+    		if (idListaParse < 1) {
+    			throw new BadRequestException("ID Lista non valido.");
+    		}	
+    	} catch (NumberFormatException e) {
+    		throw new BadRequestException("ID Lista non valido.");
+    	}
+    	
+    	var prodottoAggiunto = prodottoListaSpesaService.addProdottoToLista(idListaParse, prodottoDto);
     	
     	if (prodottoAggiunto != null) {
             return Response.status(Response.Status.CREATED).entity(prodottoAggiunto).build();
