@@ -48,7 +48,7 @@ public class ListaSpesaController {
         
         log.info("Richiesta POST per creare una nuova lista per l'utente con id: " + jwt.getClaim("id"));
         
-        UserListaSpesaDTO created = listaSpesaService.createLista(idUtente, dto);
+        UserListaSpesaDTO created = listaSpesaService.createLista(dto);
         
         log.info("Lista creata con successo: " + created);
         
