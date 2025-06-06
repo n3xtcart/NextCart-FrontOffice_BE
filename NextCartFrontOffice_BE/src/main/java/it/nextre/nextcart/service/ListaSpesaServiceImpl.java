@@ -2,63 +2,73 @@ package it.nextre.nextcart.service;
 
 
 
-import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 import org.jboss.logging.Logger;
 
+import it.nextre.nextcart.dao.ListaSpesaRepository;
 import it.nextre.nextcart.dto.ListaSpesaRequestDTO;
 import it.nextre.nextcart.dto.ListaSpesaResponseDTO;
+import it.nextre.nextcart.dto.ListaSpesaSummaryDTO;
+import it.nextre.nextcart.dto.ProdottoDTO;
 import it.nextre.nextcart.dto.UserListaSpesaDTO;
-import it.nextre.nextcart.util.ValidatorCampi;
+import it.nextre.nextcart.entity.ListaSpesa;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class ListaSpesaServiceImpl implements ListaSpesaService {
 
     private Logger log; 
+    private  ListaSpesaRepository repo;
+    private ClientProd prodotti;
 
 
 	@Override
 	public UserListaSpesaDTO createLista(ListaSpesaRequestDTO dto) {
+		
+		ListaSpesa listaSpesa = dto.toEntity();
+		
+		repo.persist(listaSpesa);
 
-		
-		if ((dto == null)) {
-			throw new IllegalArgumentException("Il dto è null");
-		}
-		ValidatorCampi.validaCampoObbligatorio(dto.getNomeLista(), "Nome lista");
-		if (dto.getNomeLista().length() > 100) {
-			throw new IllegalArgumentException("Il campo nome è maggiore di 100 caratteri");
-		}
-		ValidatorCampi.validaCampoObbligatorio(dto.getDataPrevista(), "Data lista");
-		LocalDate dataInserita = ValidatorCampi.validaData(dto.getDataPrevista(), "Data lista");
-		
-		if (dataInserita.isBefore(LocalDate.now())) {
-			throw new IllegalArgumentException("La data è antecedente ad oggi.");
-		}
-		
-		// to entity
-		// salvataggio 
-		// test
+		UserListaSpesaDTO responseDTO = new UserListaSpesaDTO();
+	    responseDTO.setListeSpesa(
+	        List.of(ListaSpesaSummaryDTO.fromEntity(listaSpesa))
+	    );
 
-		return null;
+	    return responseDTO;	
 	}
+	
 
 	@Override
 	public UserListaSpesaDTO getListeByUser(Long userId) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		// TODO: controllo se la lista non è vuota
+	    List<ListaSpesa> liste = repo.findByIdUtente(userId);
+	    return UserListaSpesaDTO.fromEntity(userId, liste);
 	}
 
 	@Override
-	public ListaSpesaResponseDTO getListaByIdAndUser(Long listaId, Long userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public ListaSpesaResponseDTO getListaByIdAndUser(Long userId, Long listaId) {
+		
+		Optional<ListaSpesa> listaTrovata = repo.findByIdUtenteAndIdLista(listaId, userId);	
+		
+		// TODO: controllo se la lista è presente - non è vuota
+		
+	    ListaSpesa lista = listaTrovata.get();
+	    
+	    List<ProdottoDTO> prodottiShop = prodotti.getProdotti(); 
+
+        return ListaSpesaResponseDTO.fromEntity(lista, prodottiShop);
 	}
 
 	@Override
 	public boolean deleteLista(Long listaId) {
-		// TODO Auto-generated method stub
-		return false;
+
+		// TODO: controllo se la lista è presente 
+		
+		return repo.deleteById(listaId);
+		
 	}
 
     

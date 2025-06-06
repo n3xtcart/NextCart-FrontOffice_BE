@@ -67,6 +67,14 @@ public class ClientProd implements ServizioProdotto {
 
 
     }
+	
+	
+
+	public List<ProdottoDTO> getProdotti() {
+		return prodotti;
+	}
+
+
 
 	@Override
 	public Optional<ProdottoDTO> trovaPerId(Long id) {

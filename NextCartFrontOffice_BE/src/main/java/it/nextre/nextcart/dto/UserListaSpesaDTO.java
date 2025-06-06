@@ -7,8 +7,13 @@ import it.nextre.nextcart.entity.ListaSpesa;
 public class UserListaSpesaDTO {
 	
 	private List<ListaSpesaSummaryDTO> listeSpesa;
-	
-    public List<ListaSpesaSummaryDTO> getListeSpesa() {
+
+
+	public UserListaSpesaDTO() {
+		
+	}
+
+	public List<ListaSpesaSummaryDTO> getListeSpesa() {
 		return listeSpesa;
 	}
 

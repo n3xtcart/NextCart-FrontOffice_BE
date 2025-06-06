@@ -12,7 +12,7 @@ public interface ListaSpesaService {
 
     UserListaSpesaDTO getListeByUser(Long userId);
 
-    ListaSpesaResponseDTO getListaByIdAndUser(Long listaId, Long userId);
+    ListaSpesaResponseDTO getListaByIdAndUser(Long userId, Long listaId );
 
     boolean deleteLista(Long listaId);
 
