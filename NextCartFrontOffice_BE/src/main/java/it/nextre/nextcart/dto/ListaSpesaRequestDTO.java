@@ -1,6 +1,7 @@
 package it.nextre.nextcart.dto;
 
 import java.time.LocalDate;
+
 import it.nextre.nextcart.entity.ListaSpesa;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
@@ -40,8 +41,12 @@ public class ListaSpesaRequestDTO {
 	}
 	
 	
-    public void toEntity(ListaSpesa entity) {
+	
+    public ListaSpesa toEntity() {
+    	ListaSpesa entity = new ListaSpesa();
         entity.setNome(this.nomeLista);
         entity.setDataPrevista(this.dataPrevista);
+       
+        return entity;
     }
 }

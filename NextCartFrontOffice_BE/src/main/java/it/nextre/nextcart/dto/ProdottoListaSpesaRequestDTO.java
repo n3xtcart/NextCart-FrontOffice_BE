@@ -1,6 +1,7 @@
 package it.nextre.nextcart.dto;
 
 import java.math.BigDecimal;
+
 import it.nextre.nextcart.entity.ProdottoListaSpesa;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

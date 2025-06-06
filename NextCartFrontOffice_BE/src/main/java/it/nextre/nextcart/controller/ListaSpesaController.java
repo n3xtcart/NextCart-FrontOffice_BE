@@ -6,6 +6,7 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.jboss.logging.Logger;
 
 import it.nextre.nextcart.dto.ListaSpesaRequestDTO;
+import it.nextre.nextcart.dto.ListaSpesaResponseDTO;
 import it.nextre.nextcart.dto.UserListaSpesaDTO;
 import it.nextre.nextcart.service.ListaSpesaService;
 import it.nextre.nextcart.service.ListaSpesaServiceImpl;
@@ -13,8 +14,11 @@ import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -24,25 +28,16 @@ import jakarta.ws.rs.core.Response;
 @Path("/liste-spesa")
 public class ListaSpesaController {
     
-    private Logger log;
-    private final ListaSpesaService listaSpesaService = new ListaSpesaServiceImpl();
-    
-    
-    public ListaSpesaController(Logger log) {
-		this.log = log;
-    }
-    
+    @Inject
+    Logger log;
+
+    @Inject
+    ListaSpesaService listaSpesaService;
+
     @Inject
     JsonWebToken jwt;
     
     
-    
-    
-    /*
-     * Da aggiungere controllo token per autenticazione
-     */
-    
-    // ritorno tutte le liste di un utente
     
     @POST
     @Path("/nuova-lista")
@@ -58,56 +53,48 @@ public class ListaSpesaController {
         
         return Response.status(Response.Status.CREATED).entity(created).build();
     }
-   /* @GET
-    @Path("/user/{userId}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getListeByUser(@PathParam("userId") Long userId) {
-        log.info("Richiesta GET per ottenere le liste dell'utente con ID: " + userId);
-        List<ListaSpesaDTO> liste = listaSpesaService.getListeByUser(userId);
-        log.info("Trovate " + liste.size() + " liste per l'utente con ID: " + userId);
-        return Response.ok(liste).build();
-    }
-
-    // ritorno di una lista in particolare
+    
+    
     @GET
-    @Path("/{listaId}/user/{userId}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getListaByIdAndUser(@PathParam("listaId") Long listaId, @PathParam("userId") Long userId) {
-        log.info("Richiesta GET per ottenere la lista con ID: " + listaId + " per l'utente con ID: " + userId);
-        ListaSpesaDTO lista = listaSpesaService.getListaByIdAndUser(listaId, userId);
-        if (lista == null) {
-            log.warn("Lista non trovata con ID: " + listaId + " per l'utente con ID: " + userId);
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-        log.info("Lista trovata: " + lista);
-        return Response.ok(lista).build();
-    }
-
-    // creazione nuova lista 
-    @POST
-    @Path("/nuova-lista")
+    @Path("/utente")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createLista(@QueryParam("email") String email, ListaSpesaDTO dto) {
-        log.info("Richiesta POST per creare una nuova lista per l'utente con email: " + email);
-        ListaSpesaDTO created = listaSpesaService.createLista(email, dto);
-        log.info("Lista creata con successo: " + created);
-        return Response.status(Response.Status.CREATED).entity(created).build();
+    public Response getListeByUser() {
+        Long userId = jwt.getClaim("id");
+        
+        log.info("Richiesta GET per ottenere tutte le liste dell'utente con id: " + userId);
+
+        UserListaSpesaDTO response = listaSpesaService.getListeByUser(userId);
+        return Response.ok(response).build();
     }
 
-    // eliminazione una lista in particolare
+
+    
+    @GET
+    @Path("/{id}")
+    public Response getListaById(@PathParam("id") Long listaId) {
+        Long userId = jwt.getClaim("id");
+        log.info("Richiesta GET per ottenere la lista con id: " + listaId + " dell'utente: " + userId);
+
+        ListaSpesaResponseDTO response = listaSpesaService.getListaByIdAndUser(userId, listaId);
+        return Response.ok(response).build();
+    }
+
     @DELETE
-    @Path("/{listaId}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteLista(@QueryParam("email") String email, @PathParam("listaId") Long listaId) {
-        log.info("Richiesta DELETE per eliminare la lista con ID: " + listaId + " per l'utente con email: " + email);
-        boolean deleted = listaSpesaService.deleteLista(email, listaId);
+    @Path("/{id}")
+    public Response deleteLista(@PathParam("id") Long listaId) {
+        Long userId = jwt.getClaim("id");
+        log.info("Richiesta DELETE per eliminare la lista con id: " + listaId + " dell'utente: " + userId);
+
+        boolean deleted = listaSpesaService.deleteLista(listaId);
+
         if (deleted) {
-            log.info("Lista con ID " + listaId + " eliminata con successo.");
-            return Response.noContent().build();
+            log.info("Lista eliminata con successo.");
+            return Response.noContent().build(); // 204 No Content
         } else {
-            log.warn("Lista con ID " + listaId + " non trovata o non eliminabile.");
-            return Response.status(Response.Status.NOT_FOUND).build();
+            log.warn("Lista non trovata o impossibile da eliminare.");
+            return Response.status(Response.Status.NOT_FOUND).build(); // 404 Not Found
         }
-    }*/
+    }
+    
 }
