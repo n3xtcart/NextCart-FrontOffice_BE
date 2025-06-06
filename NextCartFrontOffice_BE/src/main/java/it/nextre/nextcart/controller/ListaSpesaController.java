@@ -1,10 +1,7 @@
 package it.nextre.nextcart.controller;
 
-
-
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.jboss.logging.Logger;
-
 import it.nextre.nextcart.dto.ListaSpesaRequestDTO;
 import it.nextre.nextcart.dto.ListaSpesaResponseDTO;
 import it.nextre.nextcart.dto.UserListaSpesaDTO;
@@ -44,8 +41,7 @@ public class ListaSpesaController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createLista(@Valid ListaSpesaRequestDTO dto) {
-        Long idUtente = jwt.getClaim("id");  
-        
+    	
         log.info("Richiesta POST per creare una nuova lista per l'utente con id: " + jwt.getClaim("id"));
         
         UserListaSpesaDTO created = listaSpesaService.createLista(dto);
