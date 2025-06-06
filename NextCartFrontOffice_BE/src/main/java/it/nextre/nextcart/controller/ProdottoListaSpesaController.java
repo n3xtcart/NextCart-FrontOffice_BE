@@ -1,24 +1,88 @@
 package it.nextre.nextcart.controller;
 
-
 import org.jboss.logging.Logger;
-
-import jakarta.annotation.security.RolesAllowed;
-
+import it.nextre.nextcart.dto.ProdottoListaSpesaRequestDTO;
+import it.nextre.nextcart.service.ProdottoListaSpesaService;
+import jakarta.inject.Inject;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 
-@RolesAllowed("user")
-@Path("/prodotti-lista")
+//@RolesAllowed("user")
+@Path("/liste/{idLista}/prodotti")
 public class ProdottoListaSpesaController {
 
     private Logger log;
-
+    
+    @Inject
+    ProdottoListaSpesaService prodottoListaSpesaService;
 
     public ProdottoListaSpesaController(Logger log) {
         this.log = log;
     }
     
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response creaProdotto (@PathParam("idLista") Long idLista, @Valid ProdottoListaSpesaRequestDTO prodottoDto) {
+    	
+    	if (idLista == null || prodottoDto == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                           .entity("ID Lista e prodotto non possono essere nulli.")
+                           .build();
+        }
+    	
+    	var prodottoAggiunto = prodottoListaSpesaService.addProdottoToLista(idLista, prodottoDto);
+    	
+    	if (prodottoAggiunto != null) {
+            return Response.status(Response.Status.CREATED).entity(prodottoAggiunto).build();
+        } else {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                           .entity("Errore durante l'aggiunta del prodotto.")
+                           .build();
+        }
+    	 	
+    }
+    
+    @PUT
+    @Path("/{idProdotto}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response aggiornaProdotto(@PathParam("idLista") Long idLista, 
+                                     @PathParam("idProdotto") Long idProdotto, 
+                                     @Valid ProdottoListaSpesaRequestDTO prodottoDto) {
+    	return null;
+    }
+    
+    @DELETE
+    @Path("/{idProdotto}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response rimuoviProdotto (@PathParam("idLista") Long idLista, @PathParam("idProdotto") Long idProdotto) {
+    	return null;
+    }
+
+}  
+
+
+
+
+
+
+
+
+
+
+
+
+
     /*
      * Da aggiungere controllo token per autenticazione
      */
@@ -60,6 +124,3 @@ public class ProdottoListaSpesaController {
         log.infof("Prodotto ID %d aggiornato con successo nella lista ID %d", prodottoId, listaId);
         return Response.ok(updated).build();
     }*/
-
-    
-}

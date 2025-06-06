@@ -1,8 +1,6 @@
 package it.nextre.nextcart.service;
 
-
 import org.jboss.logging.Logger;
-
 import it.nextre.nextcart.dto.ProdottoListaSpesaRequestDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 
