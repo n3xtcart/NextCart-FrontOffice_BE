@@ -24,7 +24,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 
-@RolesAllowed("user")
+//@RolesAllowed("user")
 @Path("/liste-spesa")
 public class ListaSpesaController {
     
@@ -45,7 +45,7 @@ public class ListaSpesaController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createLista(@Valid ListaSpesaRequestDTO dto) {
     	
-        log.info("Richiesta POST per creare una nuova lista per l'utente con id: " + jwt.getClaim("id"));
+        //log.info("Richiesta POST per creare una nuova lista per l'utente con id: " + jwt.getClaim("id"));
         
         UserListaSpesaDTO created = listaSpesaService.createLista(dto);
         

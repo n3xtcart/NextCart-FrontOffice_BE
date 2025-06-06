@@ -1,7 +1,6 @@
 package it.nextre.nextcart.dto;
 
 import java.math.BigDecimal;
-
 import it.nextre.nextcart.entity.ProdottoListaSpesa;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -21,11 +20,11 @@ public class ProdottoListaSpesaRequestDTO {
 	
 	@NotNull
 	@NotBlank
-	@Pattern(regexp = "^[A-Za-zÀ-ÿ0-9_ ]+$")
+	@Pattern(regexp = "^[A-Za-zÀ-ÿ ]+$")
     private String tipologiaProdotto;
 	
 	@Size(max = 255)
-	@NotBlank
+	@Pattern(regexp = "^(?!\\s*$).+")
     private String noteProdotto;
     
 	@NotNull
