@@ -2,13 +2,32 @@ package it.nextre.nextcart.dto;
 
 import java.math.BigDecimal;
 import it.nextre.nextcart.entity.ProdottoListaSpesa;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 public class ProdottoListaSpesaRequestDTO {
 	
+	@NotNull
+	@Positive
 	private Long idProdottoShop;
-    //private String tipologiaProdotto;
+	
+	@NotNull
+	@Positive
     private BigDecimal quantitaProdotto;
+	
+	@NotNull
+	@NotBlank
+	@Pattern(regexp = "^[A-Za-zÀ-ÿ0-9_ ]+$")
+    private String tipologiaProdotto;
+	
+	@Size(max = 255)
+	@NotBlank
     private String noteProdotto;
+    
+	@NotNull
     private Boolean checkedProdotto;
 
 	public Long getIdProdottoShop() {
@@ -41,6 +60,14 @@ public class ProdottoListaSpesaRequestDTO {
 
 	public void setCheckedProdotto(Boolean checkedProdotto) {
 		this.checkedProdotto = checkedProdotto;
+	}
+	
+	public String getTipologiaProdotto() {
+		return tipologiaProdotto;
+	}
+
+	public void setTipologiaProdotto(String tipologiaProdotto) {
+		this.tipologiaProdotto = tipologiaProdotto;
 	}
 	
     public ProdottoListaSpesa toEntity() {
