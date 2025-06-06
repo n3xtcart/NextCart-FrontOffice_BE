@@ -1,17 +1,9 @@
 package it.nextre.nextcart.service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
-import it.nextre.aut.dto.LoginInfo;
-import it.nextre.aut.dto.TokenJwtDTO;
-import it.nextre.aut.dto.UserDTO;
-import it.nextre.aut.service.UserService;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl {/*implements UserService {
 
     private final Map<String, UserDTO> userDatabase = new HashMap<>();
 
@@ -37,6 +29,12 @@ public class UserServiceImpl implements UserService {
 	public void delete(UserDTO userDTO) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public TokenJwtDTO refreshToken() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
     /*@Override
