@@ -57,11 +57,11 @@ public class ListaSpesaController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getListeByUser() {
-        Long userId = jwt.getClaim("id");
+        //Long userId = jwt.getClaim("id");
         
-        log.info("Richiesta GET per ottenere tutte le liste dell'utente con id: " + userId);
+        log.info("Richiesta GET per ottenere tutte le liste dell'utente con id: ");
 
-        UserListaSpesaDTO response = listaSpesaService.getListeByUser(userId);
+        UserListaSpesaDTO response = listaSpesaService.getListeByUser();
         return Response.ok(response).build();
     }
 
@@ -70,18 +70,18 @@ public class ListaSpesaController {
     @GET
     @Path("/{id}")
     public Response getListaById(@PathParam("id") Long listaId) {
-        Long userId = jwt.getClaim("id");
-        log.info("Richiesta GET per ottenere la lista con id: " + listaId + " dell'utente: " + userId);
+        //Long userId = jwt.getClaim("id");
+        log.info("Richiesta GET per ottenere la lista con id: " + listaId);
 
-        ListaSpesaResponseDTO response = listaSpesaService.getListaByIdAndUser(userId, listaId);
+        ListaSpesaResponseDTO response = listaSpesaService.getListaByIdAndUser(listaId);
         return Response.ok(response).build();
     }
 
     @DELETE
     @Path("/{id}")
     public Response deleteLista(@PathParam("id") Long listaId) {
-        Long userId = jwt.getClaim("id");
-        log.info("Richiesta DELETE per eliminare la lista con id: " + listaId + " dell'utente: " + userId);
+        //Long userId = jwt.getClaim("id");
+        log.info("Richiesta DELETE per eliminare la lista con id: " + listaId);
 
         boolean deleted = listaSpesaService.deleteLista(listaId);
 

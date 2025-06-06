@@ -15,8 +15,8 @@ public class ListaSpesaRepository implements PanacheRepository<ListaSpesa>{
 	    return find("idUtente", idUtente).list();
 	}
 
-	public Optional<ListaSpesa> findByIdUtenteAndIdLista(Long listaId, Long userId) {
-	    return find("id = ?1 and idUtente = ?2", listaId, userId).firstResultOptional();
+	public Optional<ListaSpesa> findByIdUtenteAndIdLista(Long listaId, Long idUtente) {
+	    return find("id = ?1 and idUtente = ?2", listaId, idUtente).firstResultOptional();
 
 	}
 

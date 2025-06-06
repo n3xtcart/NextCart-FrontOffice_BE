@@ -10,9 +10,9 @@ public interface ListaSpesaService {
 	
 	UserListaSpesaDTO createLista(ListaSpesaRequestDTO dto);
 
-    UserListaSpesaDTO getListeByUser(Long userId);
+    UserListaSpesaDTO getListeByUser();
 
-    ListaSpesaResponseDTO getListaByIdAndUser(Long userId, Long listaId );
+    ListaSpesaResponseDTO getListaByIdAndUser( Long listaId );
 
     boolean deleteLista(Long listaId);
 

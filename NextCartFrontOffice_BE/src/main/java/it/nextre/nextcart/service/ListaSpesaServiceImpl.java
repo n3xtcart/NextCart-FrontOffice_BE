@@ -14,6 +14,8 @@ import it.nextre.nextcart.entity.ListaSpesa;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 
 @ApplicationScoped
@@ -55,27 +57,29 @@ public class ListaSpesaServiceImpl implements ListaSpesaService {
 
 	@Override
 	@Transactional
-	public UserListaSpesaDTO getListeByUser(Long userId) {
+	public UserListaSpesaDTO getListeByUser() {
 		
 		// TODO: controllo se la lista non è vuota
-	    List<ListaSpesa> liste = repo.findByIdUtente(userId);
-	    return UserListaSpesaDTO.fromEntity(userId, liste);
+        Long idUtente = 23L; 
+
+	    List<ListaSpesa> liste = repo.findByIdUtente(idUtente);
+	    return UserListaSpesaDTO.fromEntity(idUtente, liste);
 	}
 
 	@Override
 	@Transactional
-	public ListaSpesaResponseDTO getListaByIdAndUser(Long userId, Long listaId) {
-		
-		Optional<ListaSpesa> listaTrovata = repo.findByIdUtenteAndIdLista(listaId, userId);	
-		
-		// TODO: controllo se la lista è presente - non è vuota
-		
-	    ListaSpesa lista = listaTrovata.get();
-	    
-	    List<ProdottoDTO> prodottiShop = prodotti.getProdotti(); 
+	public ListaSpesaResponseDTO getListaByIdAndUser(Long listaId) {
+        Long idUtente = 23L; 
 
+        Optional<ListaSpesa> listaTrovata = repo.findByIdUtenteAndIdLista(listaId, idUtente);
+        if (listaTrovata.isEmpty()) {
+            throw new WebApplicationException("Lista non trovata", Response.Status.NOT_FOUND);
+        }
+        ListaSpesa lista = listaTrovata.get();
+        List<ProdottoDTO> prodottiShop = prodotti.getProdotti();
         return ListaSpesaResponseDTO.fromEntity(lista, prodottiShop);
-	}
+    }
+
 
 	@Override
 	@Transactional
