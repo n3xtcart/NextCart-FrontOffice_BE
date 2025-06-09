@@ -1,5 +1,7 @@
 package it.nextre.nextcart.controller;
 
+import java.util.Map;
+
 import org.jboss.logging.Logger;
 import it.nextre.nextcart.dto.ProdottoListaSpesaRequestDTO;
 import it.nextre.nextcart.service.ProdottoListaSpesaService;
@@ -38,7 +40,7 @@ public class ProdottoListaSpesaController {
     	Long idListaParse = 0L;
     	
     	if (idLista == null || prodottoDto == null) {
-    		throw new BadRequestException("ID Lista e prodotto non possono essere nulli.");
+    		throw new BadRequestException("Il corpo della richiesta non può essere nullo.");
         }
     	
     	try {
@@ -53,15 +55,26 @@ public class ProdottoListaSpesaController {
     	
     	var prodottoAggiunto = prodottoListaSpesaService.addProdottoToLista(idListaParse, prodottoDto);
     	
-    	if (prodottoAggiunto != null) {
-            return Response.status(Response.Status.CREATED).entity(prodottoAggiunto).build();
-        } else {
+    	if (!prodottoAggiunto) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                           .entity("Errore durante l'aggiunta del prodotto.")
-                           .build();
+                    .entity("Errore durante l'aggiunta del prodotto.")
+                    .build();
         }
-    	 	
+    	
+        return Response.status(Response.Status.CREATED)
+                .entity(Map.of("success", true, "message", "Prodotto aggiunto con successo"))
+                .build();	
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     @PUT
     @Path("/{idProdotto}")

@@ -1,6 +1,8 @@
 package it.nextre.nextcart.dto;
 
 import java.math.BigDecimal;
+
+import it.nextre.nextcart.entity.ListaSpesa;
 import it.nextre.nextcart.entity.ProdottoListaSpesa;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -70,12 +72,14 @@ public class ProdottoListaSpesaRequestDTO {
 		this.tipologiaProdotto = tipologiaProdotto;
 	}
 	
-    public ProdottoListaSpesa toEntity() {
+    public ProdottoListaSpesa toEntity(ListaSpesa listaSpesa) {
     	ProdottoListaSpesa prodotto = new ProdottoListaSpesa();
         prodotto.setIdProdottoShop(this.idProdottoShop);
+        prodotto.setTipologiaProdotto(this.tipologiaProdotto);
         prodotto.setQuantita(this.quantitaProdotto);
         prodotto.setNote(this.noteProdotto);
         prodotto.setChecked(this.checkedProdotto);
+        prodotto.setListaSpesa(listaSpesa);
         return prodotto;
     }
 }
