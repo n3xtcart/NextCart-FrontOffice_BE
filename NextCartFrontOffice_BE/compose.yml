@@ -1,0 +1,26 @@
+services:
+  frontoffice-be:
+    build:
+      context: .
+      dockerfile: src/main/docker/Dockerfile.jvm
+    environment:
+      - QUARKUS_DATASOURCE_JDBC_URL=jdbc:mysql://service-mysql:3306/lista_spesa_db
+      - QUARKUS_DATASOURCE_USERNAME=root
+      - QUARKUS_DATASOURCE_PASSWORD=rootpassword
+    ports:
+      - "8080:8080"
+    depends_on:
+      - service-mysql
+
+  service-mysql:
+    image: "mysql:latest"
+    environment:
+      - MYSQL_DATABASE=lista_spesa_db
+      - MYSQL_ROOT_PASSWORD=rootpassword
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3366:3306"
+
+volumes:
+  mysql-data:
