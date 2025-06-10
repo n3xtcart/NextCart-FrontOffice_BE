@@ -1,13 +1,14 @@
 package it.nextre.nextcart.controller;
 
 import java.util.Map;
-
 import org.jboss.logging.Logger;
+import io.quarkus.security.identity.SecurityIdentity;
 import it.nextre.nextcart.dto.ProdottoListaSpesaRequestDTO;
 import it.nextre.nextcart.service.ProdottoListaSpesaService;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -24,13 +25,38 @@ import jakarta.ws.rs.core.Response;
 public class ProdottoListaSpesaController {
 
     private Logger log;
-    
+        
     @Inject
     ProdottoListaSpesaService prodottoListaSpesaService;
+    
+    @Inject
+    SecurityIdentity securityIdentity;
 
     public ProdottoListaSpesaController(Logger log) {
         this.log = log;
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -66,33 +92,40 @@ public class ProdottoListaSpesaController {
                 .build();	
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     @PUT
     @Path("/{idProdotto}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response aggiornaProdotto(@PathParam("idLista") Long idLista, 
-                                     @PathParam("idProdotto") Long idProdotto, 
-                                     @Valid ProdottoListaSpesaRequestDTO prodottoDto) {
+    public Response updateProdotto(
+    		@PathParam("idProdotto") @Positive Long idProdotto, 
+            @Valid ProdottoListaSpesaRequestDTO prodottoDto) {
+    	
+    	//Long idUtente = Long.valueOf(securityIdentity.getAttribute("userId"));
+    	Long idUtente = 23L; //TODO da eliminare
+    	
+    	prodottoListaSpesaService.updateProdotto(idProdotto, prodottoDto);
+    	
+    	
+    	
+    	
     	return null;
     }
     
+
     @DELETE
     @Path("/{idProdotto}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response rimuoviProdotto (@PathParam("idLista") Long idLista, @PathParam("idProdotto") Long idProdotto) {
-    	return null;
+    public Response deleteProdotto (
+    		@PathParam("idProdotto") @Positive Long idProdotto) {
+    	
+    	//Long idUtente = Long.valueOf(securityIdentity.getAttribute("userId"));
+    	Long idUtente = 23L; //TODO da eliminare
+    	
+    	prodottoListaSpesaService.removeProdotto(idUtente, idProdotto);
+    	return Response.noContent().build();       
     }
-
+    
 }  
 
 
