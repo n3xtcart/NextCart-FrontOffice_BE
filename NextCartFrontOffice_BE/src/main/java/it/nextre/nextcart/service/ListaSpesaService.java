@@ -14,7 +14,7 @@ public interface ListaSpesaService {
 
     ListaSpesaResponseDTO getListaByIdAndUser( Long listaId );
 
-    boolean deleteLista(Long listaId);
+    boolean deleteLista(Long idUtente, Long listaId);
 
 
 }

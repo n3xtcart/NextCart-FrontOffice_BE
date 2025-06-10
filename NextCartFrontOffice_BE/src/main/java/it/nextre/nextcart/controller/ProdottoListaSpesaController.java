@@ -36,7 +36,8 @@ public class ProdottoListaSpesaController {
     		@NotNull @Valid ProdottoListaSpesaRequestDTO prodottoDto) {
     	
     	//Long idUtente = Long.valueOf(securityIdentity.getAttribute("userId"));
-    	Long idUtente = 23L; //TODO da eliminare
+    	
+    	Long idUtente = 23L; 
     	
     	prodottoListaSpesaService.addProdottoToLista(idUtente, idLista, prodottoDto);
     	return Response.status(Response.Status.CREATED).build();
@@ -61,14 +62,14 @@ public class ProdottoListaSpesaController {
     @DELETE
     @Path("/prodotti/{idProdotto}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteProdotto (
-    		@PathParam("idProdotto") @Positive Long idProdotto) {
+    public Response deleteProdotto (@PathParam("idProdotto") @Positive Long idProdotto) {
     	
     	//Long idUtente = Long.valueOf(securityIdentity.getAttribute("userId"));
-    	Long idUtente = 23L; //TODO da eliminare
+    	
+    	Long idUtente = 23L; 
     	
     	prodottoListaSpesaService.removeProdotto(idUtente, idProdotto);
     	return Response.noContent().build();       
-    }
+    	}
     
 }
