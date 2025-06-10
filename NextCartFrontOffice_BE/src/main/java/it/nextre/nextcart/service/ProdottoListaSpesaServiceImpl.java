@@ -32,28 +32,13 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
     	this.log = log;
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
 	@Override
 	@Transactional
 	public boolean addProdottoToLista(Long listaId, ProdottoListaSpesaRequestDTO dto) {
 		
-		//TODO mancano i controlli
 		log.info("Ricerca lista con Id: " + listaId);
+		
 		var lista = listaRepository.findById(listaId);
 
         if (lista == null) {
@@ -76,43 +61,14 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
         return true;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	@Override
 	public ProdottoListaSpesaResponseDTO updateProdotto(Long prodottoId, ProdottoListaSpesaRequestDTO dto) {
-		
-		
-		
-		
-		
 		return null;
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 	@Override
 	@Transactional
 	public void removeProdotto(Long idUtente, Long prodottoId) {
@@ -128,11 +84,6 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
         
         var lista = listaRepository.findById(prodotto.getListaSpesa().id);
         
-        if (lista == null) {
-        	
-        	log.warn("Lista con id " + prodotto.getListaSpesa().id + " non trovata.");
-            throw new NotFoundException("Lista associata al prodotto non trovata."); //TODO cambiare con eccezione custom
-        }
         
         if (!lista.getIdUtente().equals(idUtente)) {
         	log.warn("Utente con id: " + idUtente + "non autorizzato ad eliminare il prodotto con id: " + prodottoId);

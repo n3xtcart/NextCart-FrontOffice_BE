@@ -24,7 +24,7 @@ public class ClientCat implements ServizioCategoria {
 	
 	
 
-	public List<CategoriaDTO> getCategorie() {
+	public List<CategoriaDTO> trovaTutte() {
 		return categorie;
 	}
 

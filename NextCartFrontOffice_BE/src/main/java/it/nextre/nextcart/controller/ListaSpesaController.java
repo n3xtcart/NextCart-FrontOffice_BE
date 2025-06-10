@@ -1,13 +1,12 @@
 package it.nextre.nextcart.controller;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
+
 import org.jboss.logging.Logger;
 import it.nextre.nextcart.dto.ListaSpesaRequestDTO;
 import it.nextre.nextcart.dto.ListaSpesaResponseDTO;
 import it.nextre.nextcart.dto.UserListaSpesaDTO;
 import it.nextre.nextcart.service.ListaSpesaService;
-import it.nextre.nextcart.service.ListaSpesaServiceImpl;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -37,7 +36,6 @@ public class ListaSpesaController {
     
     
     @POST
-    @Path("/nuova-lista")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createLista(@Valid ListaSpesaRequestDTO dto) {
@@ -57,6 +55,7 @@ public class ListaSpesaController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getListeByUser() {
+    	
         //Long userId = jwt.getClaim("id");
         
         log.info("Richiesta GET per ottenere tutte le liste dell'utente con id: ");
@@ -70,27 +69,34 @@ public class ListaSpesaController {
     @GET
     @Path("/{id}")
     public Response getListaById(@PathParam("id") Long listaId) {
+    	
         //Long userId = jwt.getClaim("id");
+    	
         log.info("Richiesta GET per ottenere la lista con id: " + listaId);
 
         ListaSpesaResponseDTO response = listaSpesaService.getListaByIdAndUser(listaId);
         return Response.ok(response).build();
     }
 
+    
     @DELETE
     @Path("/{id}")
     public Response deleteLista(@PathParam("id") Long listaId) {
+    	
         //Long userId = jwt.getClaim("id");
+    	
         log.info("Richiesta DELETE per eliminare la lista con id: " + listaId);
 
-        boolean deleted = listaSpesaService.deleteLista(listaId);
+    	Long idUtente = 23L; 
+
+        boolean deleted = listaSpesaService.deleteLista(idUtente, listaId);
 
         if (deleted) {
             log.info("Lista eliminata con successo.");
-            return Response.noContent().build(); // 204 No Content
+            return Response.noContent().build(); 
         } else {
             log.warn("Lista non trovata o impossibile da eliminare.");
-            return Response.status(Response.Status.NOT_FOUND).build(); // 404 Not Found
+            return Response.status(Response.Status.NOT_FOUND).build(); 
         }
     }
     
