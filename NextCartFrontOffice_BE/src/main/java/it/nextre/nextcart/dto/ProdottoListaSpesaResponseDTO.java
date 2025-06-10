@@ -99,7 +99,7 @@ public static ProdottoListaSpesaResponseDTO fromEntity(ProdottoListaSpesa prodot
       dto.setQuantitaProdotto(prodotto.getQuantita());
       dto.setNoteProdotto(prodotto.getNote());
       dto.setCheckedProdotto(prodotto.getChecked());
-      dto.setTipologiaProdotto(prodotto.getTipologiaProdotto());
+      dto.setTipologiaProdotto(prodottoDTO.getTipologia());
       dto.setNomeProdotto(prodottoDTO.getNome());
       dto.setCategoriaProdotto(prodottoDTO.getCategoriaDTO().getNome());
       dto.setTipologiaProdotto(prodottoDTO.getTipologia());
