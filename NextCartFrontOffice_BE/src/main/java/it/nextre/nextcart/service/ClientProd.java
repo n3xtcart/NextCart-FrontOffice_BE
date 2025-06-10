@@ -44,7 +44,7 @@ public class ClientProd implements ServizioProdotto {
 	        prodotti.add(new ProdottoDTO(12L, "Yogurt bianco", new BigDecimal("0.15"), "yogurt.jpg", uovaLatticini));
 	        prodotti.add(new ProdottoDTO(13L, "Uova bio", new BigDecimal("6"), "uova.jpg", uovaLatticini));
 	        prodotti.add(new ProdottoDTO(14L, "Burro", new BigDecimal("0.25"), "burro.jpg", uovaLatticini));
-	        prodotti.add(new ProdottoDTO(15L, "Formaggio fresco", new BigDecimal("0.30"), "formaggio_fresco.jpg", uovaLatticini));
+	        prodotti.add(new ProdottoDTO(15L, "Formaggio fresco", new BigDecimal("3.0"), "formaggio_fresco.jpg", uovaLatticini));
 
 	        // Igiene
 			CategoriaDTO igiene = clientCat.trovaPerId(4L).get();

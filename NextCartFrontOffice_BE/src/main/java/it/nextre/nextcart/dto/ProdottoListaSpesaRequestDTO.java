@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import it.nextre.nextcart.entity.ListaSpesa;
 import it.nextre.nextcart.entity.ProdottoListaSpesa;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -18,6 +19,7 @@ public class ProdottoListaSpesaRequestDTO {
 	
 	@NotNull
 	@Positive
+	@Min(1)
     private BigDecimal quantitaProdotto;
 	
 	@NotNull

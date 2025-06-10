@@ -7,9 +7,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public interface ProdottoListaSpesaService {
 	
-	boolean addProdottoToLista(Long listaId, ProdottoListaSpesaRequestDTO dto);
+	void addProdottoToLista(Long idUtente, Long listaId, ProdottoListaSpesaRequestDTO dto);
 	void removeProdotto(Long idUtente, Long prodottoId);
-	ProdottoListaSpesaResponseDTO updateProdotto(Long prodottoId, ProdottoListaSpesaRequestDTO dto);
+	ProdottoListaSpesaResponseDTO updateProdotto(Long idUtente, Long prodottoId, ProdottoListaSpesaRequestDTO dto);
 	
 }
 
