@@ -1,4 +1,4 @@
-package it.nextre.nextcart.service;
+package it.nextre.nextcart.client;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import it.nextre.nextcart.dto.CategoriaDTO;
 import it.nextre.nextcart.dto.ProdottoDTO;
+import it.nextre.nextcart.service.ServizioProdotto;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

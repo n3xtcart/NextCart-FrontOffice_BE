@@ -1,11 +1,14 @@
 package it.nextre.nextcart.service;
 
+import java.util.NoSuchElementException;
 import org.jboss.logging.Logger;
+import it.nextre.nextcart.client.ClientProd;
 import it.nextre.nextcart.dao.ListaSpesaRepository;
 import it.nextre.nextcart.dao.ProdottoListaSpesaRepository;
 import it.nextre.nextcart.dto.ProdottoDTO;
 import it.nextre.nextcart.dto.ProdottoListaSpesaRequestDTO;
 import it.nextre.nextcart.dto.ProdottoListaSpesaResponseDTO;
+import it.nextre.nextcart.exception.ListaNotFoundException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -40,7 +43,7 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 		 
 		 if (lista == null) {
 			 log.warn("Lista con id " + listaId + " non trovata.");
-			 throw new NotFoundException("Lista con id " + listaId + " non trovata."); //TODO cambiare con eccezione custom
+			 throw new ListaNotFoundException(listaId);
 		}
 		 		 
 		 if (!lista.getIdUtente().equals(idUtente)) {
@@ -48,12 +51,13 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 		     throw new ForbiddenException("Non sei autorizzato ad aggiungere un prodotto"); //TODO cambiare con eccezione custom
 		 }
 		 
+		 boolean trovato = lista.getProdotti().stream()
+				    .anyMatch(prodotto -> prodotto.getIdProdottoShop() == dto.getIdProdottoShop());
 		 
-		 
-		 
-		 
-		 
-		 
+		 if (trovato) {
+			 log.warn("Prodotto dello shop con id: " + dto.getIdProdottoShop() + " e' gia' presente nella lista con id: " + listaId );
+		     throw new NoSuchElementException("Prodotto già presente nella lista"); //TODO cambiare con eccezione custom
+		}
 		 
 		var prodottoOptional = prodottoClient.trovaPerId(dto.getIdProdottoShop());
 		    

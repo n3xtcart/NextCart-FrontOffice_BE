@@ -24,7 +24,7 @@ public class ProdottoListaSpesa extends PanacheEntity {
 	
 	@NotNull
 	@Positive
-	@Column(name = "id_prodotto_shop", nullable = false)
+	@Column(name = "id_prodotto_shop", nullable = false, unique = true)
 	private Long idProdottoShop;
 	
 	@NotNull

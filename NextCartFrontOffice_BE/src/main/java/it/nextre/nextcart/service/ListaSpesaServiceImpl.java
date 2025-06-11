@@ -4,6 +4,7 @@ package it.nextre.nextcart.service;
 import java.util.List;
 import java.util.Optional;
 import org.jboss.logging.Logger;
+import it.nextre.nextcart.client.ClientProd;
 import it.nextre.nextcart.dao.ListaSpesaRepository;
 import it.nextre.nextcart.dto.ListaSpesaRequestDTO;
 import it.nextre.nextcart.dto.ListaSpesaResponseDTO;

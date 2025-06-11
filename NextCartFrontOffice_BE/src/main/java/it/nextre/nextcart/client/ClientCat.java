@@ -1,10 +1,11 @@
-package it.nextre.nextcart.service;
+package it.nextre.nextcart.client;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import it.nextre.nextcart.dto.CategoriaDTO;
+import it.nextre.nextcart.service.ServizioCategoria;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
