@@ -1,6 +1,5 @@
 package it.nextre.nextcart.service;
 
-
 import java.util.List;
 import java.util.Optional;
 import org.jboss.logging.Logger;
@@ -12,13 +11,11 @@ import it.nextre.nextcart.dto.ListaSpesaSummaryDTO;
 import it.nextre.nextcart.dto.ProdottoDTO;
 import it.nextre.nextcart.dto.UserListaSpesaDTO;
 import it.nextre.nextcart.entity.ListaSpesa;
+import it.nextre.nextcart.exception.AccessoNegatoException;
+import it.nextre.nextcart.exception.RisorsaNotFoundException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.ForbiddenException;
-import jakarta.ws.rs.NotFoundException;
-import jakarta.ws.rs.WebApplicationException;
-import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 
 @ApplicationScoped
@@ -71,7 +68,7 @@ public class ListaSpesaServiceImpl implements ListaSpesaService {
 	    List<ListaSpesa> liste = repo.findByIdUtente(idUtente);
 	    
         if (liste.isEmpty()) {
-            throw new WebApplicationException("Lista non trovata", Response.Status.NOT_FOUND);
+            throw new RisorsaNotFoundException("Lista non trovata");
         }
 	    
 	    return UserListaSpesaDTO.fromEntity(idUtente, liste);
@@ -87,7 +84,7 @@ public class ListaSpesaServiceImpl implements ListaSpesaService {
         Optional<ListaSpesa> listaTrovata = repo.findByIdUtenteAndIdLista(listaId, idUtente);
         
         if (listaTrovata.isEmpty()) {
-            throw new WebApplicationException("Lista non trovata", Response.Status.NOT_FOUND);
+            throw new RisorsaNotFoundException("Lista non trovata");
         }
         
         ListaSpesa lista = listaTrovata.get();
@@ -106,12 +103,12 @@ public class ListaSpesaServiceImpl implements ListaSpesaService {
         
         if (trovata == null) {
         	log.warn("Lista con id " + listaId + " non trovata.");
-            throw new NotFoundException("Lista associata al prodotto non trovata."); //TODO cambiare con eccezione custom
+            throw new RisorsaNotFoundException("Lista non trovata");
         }
         
         if (!trovata.getIdUtente().equals(idUtente)) {
         	log.warn("Utente con id: " + idUtente + "non autorizzato ad eliminare la lista con id: " + listaId);
-            throw new ForbiddenException("Non sei autorizzato a eliminare questa lista"); //TODO cambiare con eccezione custom
+            throw new AccessoNegatoException("Accesso negato");
         }
  
 		return repo.deleteById(listaId);

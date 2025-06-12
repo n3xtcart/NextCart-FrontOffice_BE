@@ -89,15 +89,11 @@ public class ListaSpesaController {
 
     	Long idUtente = 23L; 
 
-        boolean deleted = listaSpesaService.deleteLista(idUtente, listaId);
+        listaSpesaService.deleteLista(idUtente, listaId);
 
-        if (deleted) {
-            log.info("Lista eliminata con successo.");
-            return Response.noContent().build(); 
-        } else {
-            log.warn("Lista non trovata o impossibile da eliminare.");
-            return Response.status(Response.Status.NOT_FOUND).build(); 
-        }
+        log.info("Lista eliminata con successo.");
+        return Response.noContent().build(); 
+
     }
     
 }

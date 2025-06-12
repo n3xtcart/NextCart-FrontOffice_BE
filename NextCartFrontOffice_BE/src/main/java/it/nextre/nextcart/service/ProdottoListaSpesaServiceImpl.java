@@ -1,6 +1,5 @@
 package it.nextre.nextcart.service;
 
-import java.util.NoSuchElementException;
 import org.jboss.logging.Logger;
 import it.nextre.nextcart.client.ClientProd;
 import it.nextre.nextcart.dao.ListaSpesaRepository;
@@ -8,12 +7,13 @@ import it.nextre.nextcart.dao.ProdottoListaSpesaRepository;
 import it.nextre.nextcart.dto.ProdottoDTO;
 import it.nextre.nextcart.dto.ProdottoListaSpesaRequestDTO;
 import it.nextre.nextcart.dto.ProdottoListaSpesaResponseDTO;
-import it.nextre.nextcart.exception.ListaNotFoundException;
+import it.nextre.nextcart.exception.AccessoNegatoException;
+import it.nextre.nextcart.exception.ProdottoPresenteException;
+import it.nextre.nextcart.exception.QuantitaUnavailableException;
+import it.nextre.nextcart.exception.RisorsaNotFoundException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.ForbiddenException;
-import jakarta.ws.rs.NotFoundException;
 
 @ApplicationScoped
 public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
@@ -43,12 +43,12 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 		 
 		 if (lista == null) {
 			 log.warn("Lista con id " + listaId + " non trovata.");
-			 throw new ListaNotFoundException(listaId);
+			 throw new RisorsaNotFoundException("Lista non trovata");
 		}
 		 		 
 		 if (!lista.getIdUtente().equals(idUtente)) {
 		     log.warn("Utente con id: " + idUtente + " non autorizzato ad aggiungere un prodotto alla lista con id: " + listaId);
-		     throw new ForbiddenException("Non sei autorizzato ad aggiungere un prodotto"); //TODO cambiare con eccezione custom
+		     throw new AccessoNegatoException("Accesso negato");
 		 }
 		 
 		 boolean trovato = lista.getProdotti().stream()
@@ -56,26 +56,26 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 		 
 		 if (trovato) {
 			 log.warn("Prodotto dello shop con id: " + dto.getIdProdottoShop() + " e' gia' presente nella lista con id: " + listaId );
-		     throw new NoSuchElementException("Prodotto già presente nella lista"); //TODO cambiare con eccezione custom
+		     throw new ProdottoPresenteException("Prodotto gia' presente nell lista");
 		}
 		 
 		var prodottoOptional = prodottoClient.trovaPerId(dto.getIdProdottoShop());
 		    
 	    if (prodottoOptional.isEmpty()) {
-	        log.warn("Prodotto esterno con id :" + dto.getIdProdottoShop()  + " non trovato.");
-	        throw new NotFoundException("Prodotto nello shop non trovato"); //TODO cambiare con eccezione custom
+	        log.warn("Prodotto nello shop con id :" + dto.getIdProdottoShop()  + " non trovato.");
+	        throw new RisorsaNotFoundException("Prodotto nello shop non trovato");
 	    }
 	    
 	    ProdottoDTO prodottoShop = prodottoOptional.get();
 	    
 	    if(dto.getQuantitaProdotto().compareTo(prodottoShop.getQuantita()) > 0) {
 	    	log.warn("La quantità richiesta è maggiore di quella disponibile.");
-	    	throw new IllegalArgumentException("La quantità richiesta supera la disponibilità del prodotto."); //TODO cambiare con eccezione custom
+	    	throw new QuantitaUnavailableException("Quantita' non disponibile");
 	    }
 	    
 	    var prodotto = dto.toEntity(lista);
 		prodottiRepository.persist(prodotto);
-		log.info("Prodotto con id " + prodotto.id + " aggiunto correttamente per l'utente con id: " + idUtente);
+		log.info("Prodotto con id " + prodotto.id + " aggiunto correttamente alla lista con id: "+ listaId);
 	}
 
 	@Override
@@ -87,32 +87,32 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 	    var prodotto = prodottiRepository.findById(prodottoId);
 	    if (prodotto == null) {
 	        log.warn("Prodotto con id " + prodottoId + " non trovato");
-	        throw new NotFoundException("Prodotto con id " + prodottoId + " non trovato."); //TODO cambiare con eccezione custom
+	        throw new RisorsaNotFoundException("Prodotto non trovato");
 	    }
 
 	    var lista = listaRepository.findById(prodotto.getListaSpesa().id);
 	    if (lista == null) {
 	        log.warn("Lista con id " + prodotto.getListaSpesa().id + " non trovata.");
-	        throw new NotFoundException("Lista associata al prodotto non trovata."); //TODO cambiare con eccezione custom
+	        throw new RisorsaNotFoundException("Prodotto non presente nella lista.");
 	    }
 
 	    if (!lista.getIdUtente().equals(idUtente)) {
 	        log.warn("Utente con id: " + idUtente + " non autorizzato ad aggiornare il prodotto con id: " + prodottoId);
-	        throw new ForbiddenException("Non sei autorizzato ad aggiornare questo prodotto"); //TODO cambiare con eccezione custom
+	        throw new AccessoNegatoException("Accesso negato");
 	    }
 		
 	    var prodottoOptional = prodottoClient.trovaPerId(dto.getIdProdottoShop());
 	    
 	    if (prodottoOptional.isEmpty()) {
-	        log.warn("Prodotto esterno con id :" + dto.getIdProdottoShop()  + " non trovato.");
-	        throw new NotFoundException("Prodotto nello shop non trovato"); //TODO cambiare con eccezione custom
+	        log.warn("Prodotto nello shop con id :" + dto.getIdProdottoShop()  + " non trovato.");
+	        throw new RisorsaNotFoundException("Prodotto nello shop non trovato");
 	    }
 	    
 	    ProdottoDTO prodottoShop = prodottoOptional.get();
 	    
 	    if(dto.getQuantitaProdotto().compareTo(prodottoShop.getQuantita()) > 0) {
-	    	log.warn("La quantità richiesta è maggiore di quella disponibile.");
-	    	throw new IllegalArgumentException("La quantità richiesta supera la disponibilità del prodotto."); //TODO cambiare con eccezione custom
+	    	log.warn("La quantita' richiesta e' maggiore di quella disponibile.");
+	    	throw new QuantitaUnavailableException("Quantita' non disponibile");
 	    }
 	    
 		prodotto.setNote(dto.getNoteProdotto());
@@ -121,7 +121,7 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 	    
 	    var rispostaDTO = ProdottoListaSpesaResponseDTO.fromEntity(prodotto, prodottoShop);
 	    
-	    log.info("Prodotto id: " + prodottoId + " aggiornato con successo per utente id: " + idUtente);
+	    log.info("Prodotto id: " + prodottoId + " nella lista con id: " + prodotto.getListaSpesa().id + " aggiornato con successo");
 		return rispostaDTO;
 	}
 	
@@ -136,7 +136,7 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 
         if (prodotto == null) {
         	log.warn("Prodotto con id " + prodottoId + " non trovato");
-            throw new NotFoundException("Prodotto con id " + prodottoId + " non trovato."); //TODO cambiare con eccezione custom
+            throw new RisorsaNotFoundException("Prodotto non trovato");
         }
         
         var lista = listaRepository.findById(prodotto.getListaSpesa().id);
@@ -144,17 +144,16 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
         if (lista == null) {
         	
         	log.warn("Lista con id " + prodotto.getListaSpesa().id + " non trovata.");
-            throw new NotFoundException("Lista associata al prodotto non trovata."); //TODO cambiare con eccezione custom
+            throw new RisorsaNotFoundException("Prodotto non presente nella lista.");
         }
         
         if (!lista.getIdUtente().equals(idUtente)) {
         	log.warn("Utente con id: " + idUtente + "non autorizzato ad eliminare il prodotto con id: " + prodottoId);
-            throw new ForbiddenException("Non sei autorizzato a eliminare questo prodotto"); //TODO cambiare con eccezione custom
+            throw new AccessoNegatoException("Accesso negato");
         }
         
         prodotto.delete();
-		log.info("Richiesta di eliminazione prodotto con id: " + prodottoId + " per l'utente con id: "  + idUtente + "conclusa correttamente.");
+		log.info("Richiesta di eliminazione prodotto con id: " + prodottoId + "dalla lista con id: " + prodotto.getListaSpesa().id +" conclusa correttamente.");
 	}
 	
 }
-

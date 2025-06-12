@@ -11,10 +11,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
@@ -24,7 +22,7 @@ public class ProdottoListaSpesa extends PanacheEntity {
 	
 	@NotNull
 	@Positive
-	@Column(name = "id_prodotto_shop", nullable = false, unique = true)
+	@Column(name = "id_prodotto_shop", nullable = false)
 	private Long idProdottoShop;
 	
 	@NotNull
