@@ -68,7 +68,7 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 	    
 	    ProdottoDTO prodottoShop = prodottoOptional.get();
 	    
-	    if(dto.getQuantitaProdotto().compareTo(prodottoShop.getQuantita()) > 0) {
+	    if(dto.getQuantitaProdotto().compareTo(prodottoShop.getQuantita()) > 1) {
 	    	log.warn("La quantità richiesta è maggiore di quella disponibile.");
 	    	throw new QuantitaUnavailableException("Quantita' non disponibile");
 	    }
@@ -110,7 +110,7 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 	    
 	    ProdottoDTO prodottoShop = prodottoOptional.get();
 	    
-	    if(dto.getQuantitaProdotto().compareTo(prodottoShop.getQuantita()) > 0) {
+	    if(dto.getQuantitaProdotto().compareTo(prodottoShop.getQuantita()) > 1) {
 	    	log.warn("La quantita' richiesta e' maggiore di quella disponibile.");
 	    	throw new QuantitaUnavailableException("Quantita' non disponibile");
 	    }

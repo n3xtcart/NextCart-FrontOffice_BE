@@ -17,13 +17,14 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+
 //@RolesAllowed("user")
 @Path("/liste")
 public class ProdottoListaSpesaController {
 
     @Inject
     ProdottoListaSpesaService prodottoListaSpesaService;
-    
+
     @Inject
     SecurityIdentity securityIdentity;
   

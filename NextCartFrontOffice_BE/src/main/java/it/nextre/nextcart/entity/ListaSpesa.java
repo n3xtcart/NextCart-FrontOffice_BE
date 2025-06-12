@@ -4,13 +4,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+
+import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -48,7 +46,7 @@ public class ListaSpesa extends PanacheEntity {
 	@Column(name = "update_time", nullable = false)
 	public LocalDateTime updateTime;
 	
-    @OneToMany(mappedBy = "listaSpesa")
+    @OneToMany(mappedBy = "listaSpesa", fetch = FetchType.EAGER)
     private List<ProdottoListaSpesa> prodotti;
     
 	public String getNome() {
