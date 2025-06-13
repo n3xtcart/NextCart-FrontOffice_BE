@@ -103,7 +103,6 @@ class ProdottoListaSpesaControllerTest {
         assertEquals(dto.getQuantitaProdotto(), updated.getQuantita());
         assertEquals(dto.getNoteProdotto(), updated.getNote());
         assertEquals(dto.getCheckedProdotto(), updated.getChecked());
-
 }
 
     @Transactional
