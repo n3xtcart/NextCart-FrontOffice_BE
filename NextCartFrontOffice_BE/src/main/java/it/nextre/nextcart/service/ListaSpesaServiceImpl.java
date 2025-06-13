@@ -68,7 +68,7 @@ public class ListaSpesaServiceImpl implements ListaSpesaService {
 	    List<ListaSpesa> liste = repo.findByIdUtente(idUtente);
 	    
         if (liste.isEmpty()) {
-            throw new RisorsaNotFoundException("Lista non trovata");
+            throw new RisorsaNotFoundException("Risorsa non trovata");
         }
 	    
 	    return UserListaSpesaDTO.fromEntity(idUtente, liste);
@@ -84,7 +84,7 @@ public class ListaSpesaServiceImpl implements ListaSpesaService {
         Optional<ListaSpesa> listaTrovata = repo.findByIdUtenteAndIdLista(listaId, idUtente);
         
         if (listaTrovata.isEmpty()) {
-            throw new RisorsaNotFoundException("Lista non trovata");
+            throw new RisorsaNotFoundException("Risorsa non trovata");
         }
         
         ListaSpesa lista = listaTrovata.get();
@@ -103,7 +103,7 @@ public class ListaSpesaServiceImpl implements ListaSpesaService {
         
         if (trovata == null) {
         	log.warn("Lista con id " + listaId + " non trovata.");
-            throw new RisorsaNotFoundException("Lista non trovata");
+            throw new RisorsaNotFoundException("Risorsa non trovata");
         }
         
         if (!trovata.getIdUtente().equals(idUtente)) {

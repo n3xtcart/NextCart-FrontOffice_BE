@@ -18,7 +18,7 @@ public class InternalServerErrorMapper implements ExceptionMapper<Throwable>{
     @Override
     public Response toResponse(Throwable exception) {
     	
-    	log.error("Eccezione con stato 500: " + exception.getMessage());
+    	log.errorf("Eccezione: %s \nCausa: %s", exception.getMessage(), exception.getCause());
     	
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                        .entity(new ErrorResponse("INTERNAL_SERVER_ERROR", "Errore interno"))

@@ -19,7 +19,7 @@ public class ValidationExceptionMapper implements ExceptionMapper<ConstraintViol
 	@Override
 	public Response toResponse(ConstraintViolationException exception) {
 		
-    	log.error("Eccezione con stato 400: " + exception.getMessage());
+    	log.errorf("Eccezione con stato 400: %s", exception.getMessage());
     	
         return Response.status(Response.Status.BAD_REQUEST)
                        .entity(new ErrorResponse("BAD_REQUEST", "Errore nella richiesta"))

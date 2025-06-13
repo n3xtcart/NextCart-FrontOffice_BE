@@ -19,7 +19,7 @@ public class RisorsaNotFoundExceptionMapper implements ExceptionMapper<RisorsaNo
     @Override
     public Response toResponse(RisorsaNotFoundException exception) {
     	
-    	log.error("Eccezione con stato 404: " + exception.getMessage());
+    	log.errorf("Eccezione con stato 404: %s", exception.getMessage());
     	
         return Response.status(Response.Status.NOT_FOUND)
                        .entity(new ErrorResponse("NOT_FOUND", exception.getMessage()))

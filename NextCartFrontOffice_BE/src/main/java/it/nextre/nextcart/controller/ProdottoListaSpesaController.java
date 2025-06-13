@@ -42,13 +42,13 @@ public class ProdottoListaSpesaController {
     		@PathParam("idLista")  @Positive Long idLista,
     		@NotNull @Valid ProdottoListaSpesaRequestDTO prodottoDto) {
     	
-    	log.infof("Richiesta POST: aggiunta di un nuovo prodotto alla lista con id: {}", idLista);
+    	log.infof("Richiesta POST: aggiunta di un nuovo prodotto alla lista con id: %d", idLista);
     	
     	//Long idUtente = Long.valueOf(securityIdentity.getAttribute("userId"));
     	Long idUtente = 23L; //TODO da eliminare
     	
     	Long idProdotto = prodottoListaSpesaService.addProdottoToLista(idUtente, idLista, prodottoDto);
-    	log.infof("Prodotto con id: {} aggiunto correttamente alla lista con id: {} per l'utente con id: {}", idProdotto, idLista, idUtente);
+    	log.infof("Prodotto con id: %d aggiunto correttamente alla lista con id: %d per l'utente con id: %d", idProdotto, idLista, idUtente);
     	return Response.status(Response.Status.CREATED).build();
     }
     
@@ -60,13 +60,13 @@ public class ProdottoListaSpesaController {
     		@PathParam("idProdotto") @Positive Long idProdotto, 
             @NotNull @Valid ProdottoListaSpesaRequestDTO prodottoDto) {
     	
-    	log.infof("Richiesta PUT: aggiornamento del prodotto con id: {}", idProdotto);
+    	log.infof("Richiesta PUT: aggiornamento del prodotto con id: %d", idProdotto);
     	
     	//Long idUtente = Long.valueOf(securityIdentity.getAttribute("userId"));
-    	Long idUtente = 23L; //TODO da eliminare
+    	Long idUtente = 24L; //TODO da eliminare
     	
     	var prodottoAggiornato = prodottoListaSpesaService.updateProdotto(idUtente, idProdotto, prodottoDto);
-    	log.infof("Prodotto con id: {} aggiornato con successo per l'utente con id: {}", idProdotto, idUtente);
+    	log.infof("Prodotto con id: %d aggiornato con successo per l'utente con id: %d", idProdotto, idUtente);
     	return Response.ok(prodottoAggiornato).build();
     }
     
@@ -76,13 +76,13 @@ public class ProdottoListaSpesaController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteProdotto (@PathParam("idProdotto") @Positive Long idProdotto) {
     	
-        log.infof("Richiesta DELETE per eliminazione del prodotto con id: {}", idProdotto);
+        log.infof("Richiesta DELETE per eliminazione del prodotto con id: %d", idProdotto);
     	
     	//Long idUtente = Long.valueOf(securityIdentity.getAttribute("userId"));
     	Long idUtente = 23L; //TODO da eliminare
     	
     	Long idLista = prodottoListaSpesaService.removeProdotto(idUtente, idProdotto);
-    	log.infof("Eliminazione completata: prodotto con id {} rimosso dalla lista con id {}", idProdotto, idLista);
+    	log.infof("Eliminazione completata: prodotto con id %d rimosso dalla lista con id %d", idProdotto, idLista);
     	return Response.noContent().build();       
     }
     

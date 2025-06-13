@@ -19,7 +19,7 @@ public class QuantitaUnavailableMapper implements ExceptionMapper<QuantitaUnavai
     @Override
     public Response toResponse(QuantitaUnavailableException exception) {
     	
-    	log.error("Eccezione con stato 409: " + exception.getMessage());
+    	log.errorf("Eccezione con stato 409: %s", exception.getMessage());
     	
         return Response.status(Response.Status.CONFLICT)
                        .entity(new ErrorResponse("CONFLICT", exception.getMessage()))

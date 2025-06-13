@@ -20,10 +20,10 @@ public class AccessoNegatoMapper implements ExceptionMapper<AccessoNegatoExcepti
     @Override
     public Response toResponse(AccessoNegatoException exception) {
     	
-    	log.error("Eccezione con stato 404: " + exception.getMessage());
+    	log.errorf("Eccezione con stato 403: %s", exception.getMessage());
     	
-        return Response.status(Response.Status.FORBIDDEN)
-                       .entity(new ErrorResponse("FORBIDDEN", exception.getMessage()))
+        return Response.status(Response.Status.NOT_FOUND)
+                       .entity(new ErrorResponse("NOT_FOUND", "Risorsa non trovata"))
                        .build();
     }
 

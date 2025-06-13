@@ -37,17 +37,17 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 	@Transactional
 	public Long addProdottoToLista(Long idUtente, Long listaId, ProdottoListaSpesaRequestDTO dto) {
 		
-		log.infof("Richiesta di aggiunta prodotto per l'utente con id: {} alla lista con id: {}", idUtente, listaId);
+		log.infof("Richiesta di aggiunta prodotto per l'utente con id: %d alla lista con id: %d", idUtente, listaId);
 		
 		 var lista = listaRepository.findById(listaId);		 
 		 
 		 if (lista == null) {
-			 log.warnf("Lista con id {} non trovata", listaId);
-			 throw new RisorsaNotFoundException("Lista non trovata");
+			 log.warnf("Lista con id %d non trovata", listaId);
+			 throw new RisorsaNotFoundException("Risorsa non trovata");
 		}
 		 		 
 		 if (!lista.getIdUtente().equals(idUtente)) {
-			 log.warnf("Utente con id: {} non autorizzato ad aggiungere un prodotto alla lista con id: {}", idUtente, listaId);
+			 log.warnf("Utente con id: %d non autorizzato ad aggiungere un prodotto alla lista con id: %d", idUtente, listaId);
 		     throw new AccessoNegatoException("Accesso negato");
 		 }
 		 
@@ -55,21 +55,21 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 				 .anyMatch(prodotto -> prodotto.getIdProdottoShop().equals(dto.getIdProdottoShop()));
 		 
 		 if (trovato) {
-			 log.warnf("Prodotto dello shop con id: {} già presente nella lista con id: {}", dto.getIdProdottoShop(), listaId);
+			 log.warnf("Prodotto dello shop con id: %d già presente nella lista con id: %d", dto.getIdProdottoShop(), listaId);
 		     throw new ProdottoPresenteException("Prodotto gia' presente nell lista");
 		}
 		 
 		var prodottoOptional = prodottoClient.trovaPerId(dto.getIdProdottoShop());
 		    
 	    if (prodottoOptional.isEmpty()) {
-	    	log.warnf("Prodotto nello shop con id: {} non trovato", dto.getIdProdottoShop());
+	    	log.warnf("Prodotto nello shop con id: %d non trovato", dto.getIdProdottoShop());
 	        throw new RisorsaNotFoundException("Prodotto nello shop non trovato");
 	    }
 	    
 	    ProdottoDTO prodottoShop = prodottoOptional.get();
 	    
 	    if(dto.getQuantitaProdotto().compareTo(prodottoShop.getQuantita()) > 0) {
-	        log.warnf("Quantità richiesta ({}) maggiore di quella disponibile ({}) per il prodotto con id: {}",
+	        log.warnf("Quantità richiesta (%d) maggiore di quella disponibile (%d) per il prodotto con id: %d",
 	                 dto.getQuantitaProdotto(), prodottoShop.getQuantita(), dto.getIdProdottoShop());
 	    	throw new QuantitaUnavailableException("Quantita' non disponibile");
 	    }
@@ -84,14 +84,14 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 	@Transactional
 	public ProdottoListaSpesaResponseDTO updateProdotto(Long idUtente, Long prodottoId, ProdottoListaSpesaRequestDTO dto) {
 		
-		log.infof("Inizio aggiornamento prodotto con id: {} per l'utente con id: {}", prodottoId, idUtente);
+		log.infof("Inizio aggiornamento prodotto con id: %d per l'utente con id: %d", prodottoId, idUtente);
 		
 	    var prodotto = prodottiRepository.findById(prodottoId);
 	    if (prodotto == null) {
-	    	log.warnf("Prodotto con id {} non trovato.", prodottoId);
-	        throw new RisorsaNotFoundException("Prodotto non trovato");
+	    	log.warnf("Prodotto con id %d non trovato.", prodottoId);
+	        throw new RisorsaNotFoundException("Risorsa non trovata");
 	    }
-
+	    
 	    var lista = listaRepository.findById(prodotto.getListaSpesa().id);
 	    if (lista == null) {
 	    	log.warnf("Lista con id {} associata al prodotto non trovata.", prodotto.getListaSpesa().id);
@@ -99,21 +99,21 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 	    }
 
 	    if (!lista.getIdUtente().equals(idUtente)) {
-	    	log.warnf("Accesso negato: utente con id {} non autorizzato ad aggiornare il prodotto con id {}", idUtente, prodottoId);
+	    	log.warnf("Utente con id %d non autorizzato ad aggiornare il prodotto con id %d", idUtente, prodottoId);
 	        throw new AccessoNegatoException("Accesso negato");
 	    }
 		
-	    var prodottoOptional = prodottoClient.trovaPerId(dto.getIdProdottoShop());
+	    var prodottoOptional = prodottoClient.trovaPerId(prodotto.getIdProdottoShop());
 	    
 	    if (prodottoOptional.isEmpty()) {
-	    	log.warnf("Prodotto nello shop con id {} non trovato.", dto.getIdProdottoShop());
+	    	log.warnf("Prodotto nello shop con id %d non trovato.", prodotto.getIdProdottoShop());
 	        throw new RisorsaNotFoundException("Prodotto nello shop non trovato");
 	    }
 	    
 	    ProdottoDTO prodottoShop = prodottoOptional.get();
 	    
 	    if(dto.getQuantitaProdotto().compareTo(prodottoShop.getQuantita()) > 0) {
-	    	log.warnf("Quantità richiesta ({}) superiore a quella disponibile ({}).", dto.getQuantitaProdotto(), prodottoShop.getQuantita());
+	    	log.warnf("Quantità richiesta (%d) superiore a quella disponibile (%d).", dto.getQuantitaProdotto(), prodottoShop.getQuantita());
 	    	throw new QuantitaUnavailableException("Quantita' non disponibile");
 	    }
 	    
@@ -130,25 +130,25 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 	@Transactional
 	public Long removeProdotto(Long idUtente, Long prodottoId) {
 		
-		log.infof("Inizio eliminazione prodotto con id: {} per l'utente con id: {}", prodottoId, idUtente);
+		log.infof("Inizio eliminazione prodotto con id: %d per l'utente con id: %d", prodottoId, idUtente);
 		
 		var prodotto = prodottiRepository.findById(prodottoId);
 
         if (prodotto == null) {
-        	log.warnf("Prodotto con id {} non trovato.", prodottoId);
-            throw new RisorsaNotFoundException("Prodotto non trovato");
+        	log.warnf("Prodotto con id %d non trovato.", prodottoId);
+            throw new RisorsaNotFoundException("Risorsa non trovata");
         }
         
         var lista = listaRepository.findById(prodotto.getListaSpesa().id);
         
         if (lista == null) {
         	
-        	log.warnf("Lista con id {} associata al prodotto non trovata.", prodotto.getListaSpesa().id);
+        	log.warnf("Lista con id %d associata al prodotto non trovata.", prodotto.getListaSpesa().id);
             throw new RisorsaNotFoundException("Prodotto non presente nella lista.");
         }
         
         if (!lista.getIdUtente().equals(idUtente)) {
-        	log.warnf("Accesso negato: utente con id {} non autorizzato a eliminare il prodotto con id {}", idUtente, prodottoId);
+        	log.warnf("Utente con id %d non autorizzato a eliminare il prodotto con id %d", idUtente, prodottoId);
             throw new AccessoNegatoException("Accesso negato");
         }
         
