@@ -6,7 +6,7 @@ CREATE TABLE liste_spesa (
   `creation_time` DATETIME(6) NOT NULL,
   `update_time` DATETIME(6) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_lista_per_utente` (`nome`,`id_utente`)
+  UNIQUE KEY `uk_lista_per_utente` (`nome`,`id_utente`)
 ); 
   
 CREATE TABLE prodotti_lista_spesa (

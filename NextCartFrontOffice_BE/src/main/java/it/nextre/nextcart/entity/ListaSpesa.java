@@ -46,7 +46,7 @@ public class ListaSpesa extends PanacheEntity {
 	@Column(name = "update_time", nullable = false)
 	public LocalDateTime updateTime;
 	
-    @OneToMany(mappedBy = "listaSpesa", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "listaSpesa", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<ProdottoListaSpesa> prodotti;
     
 	public String getNome() {
