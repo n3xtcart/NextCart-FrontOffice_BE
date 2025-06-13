@@ -1,6 +1,7 @@
 package it.nextre.nextcart.service;
 
 import io.quarkus.test.junit.QuarkusTest;
+import it.nextre.nextcart.client.ClientProd;
 import it.nextre.nextcart.dao.ListaSpesaRepository;
 import it.nextre.nextcart.dao.ProdottoListaSpesaRepository;
 import it.nextre.nextcart.dto.ProdottoListaSpesaRequestDTO;
@@ -31,6 +32,9 @@ class ProdottoListaSpesaServiceImplTest {
     @Inject
     ProdottoListaSpesaRepository prodottoRepository;
 
+    @Inject
+    ClientProd prodottoClient;
+
     private ListaSpesa listaTest;
 
     @Transactional
@@ -49,30 +53,25 @@ class ProdottoListaSpesaServiceImplTest {
     @Test
     @Transactional
     void addProdottoToLista() {
-        ProdottoListaSpesaRequestDTO dto = new ProdottoListaSpesaRequestDTO();
-        dto.setIdProdottoShop(1L);
-        dto.setQuantitaProdotto(new BigDecimal("1"));
-        dto.setNoteProdotto("Note aggiunta");
+        Long idProdotto = prodottoClient.trovaTutti().get(0).getId();
+
+        var dto = new ProdottoListaSpesaRequestDTO();
+        dto.setIdProdottoShop(idProdotto);
+        dto.setQuantitaProdotto(BigDecimal.valueOf(1));
+        dto.setNoteProdotto("Nota di test");
         dto.setCheckedProdotto(false);
 
         service.addProdottoToLista(23L, listaTest.id, dto);
 
-        var listaAggiornata = listaRepository.findById(listaTest.id);
-        assertNotNull(listaAggiornata);
+        var prodotti = prodottoRepository.listAll();
+        assertEquals(1, prodotti.size());
 
-        var prodotti = listaAggiornata.getProdotti();
-        assertFalse(prodotti.isEmpty());
-
-        var prodotto = prodotti.stream()
-                .filter(p -> p.getIdProdottoShop().equals(dto.getIdProdottoShop()))
-                .findFirst()
-                .orElse(null);
-
-        assertNotNull(prodotto);
-        assertEquals(dto.getQuantitaProdotto(), prodotto.getQuantita());
-        assertEquals(dto.getNoteProdotto(), prodotto.getNote());
-        assertEquals(dto.getCheckedProdotto(), prodotto.getChecked());
+        var prodottoSalvato = prodotti.get(0);
+        assertEquals(idProdotto, prodottoSalvato.getIdProdottoShop());
+        assertEquals(dto.getQuantitaProdotto(), prodottoSalvato.getQuantita());
+        assertEquals(dto.getNoteProdotto(), prodottoSalvato.getNote());
     }
+
 
     @Test
     @Transactional

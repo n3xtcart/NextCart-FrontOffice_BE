@@ -32,8 +32,7 @@ public class ListaSpesaController {
 
     @Inject
     JsonWebToken jwt;
-    
-    
+
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

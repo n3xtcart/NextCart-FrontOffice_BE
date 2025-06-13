@@ -27,7 +27,6 @@ class ListaSpesaServiceImplTest {
     @Transactional
     @BeforeEach
     void setUp() {
-        // Pulizia e dati iniziali
         repo.deleteAll();
 
         ListaSpesa lista = new ListaSpesa();
