@@ -44,11 +44,8 @@ public class ProdottoListaSpesaController {
     	
     	log.infof("Richiesta POST: aggiunta di un nuovo prodotto alla lista con id: %d", idLista);
     	
-    	//Long idUtente = Long.valueOf(securityIdentity.getAttribute("userId"));
-    	Long idUtente = 23L; //TODO da eliminare
-    	
-    	Long idProdotto = prodottoListaSpesaService.addProdottoToLista(idUtente, idLista, prodottoDto);
-    	log.infof("Prodotto con id: %d aggiunto correttamente alla lista con id: %d per l'utente con id: %d", idProdotto, idLista, idUtente);
+    	Long idProdotto = prodottoListaSpesaService.addProdottoToLista(idLista, prodottoDto);
+    	log.infof("Prodotto con id: %d aggiunto correttamente alla lista con id: %d", idProdotto, idLista);
     	return Response.status(Response.Status.CREATED).build();
     }
     
@@ -62,11 +59,8 @@ public class ProdottoListaSpesaController {
     	
     	log.infof("Richiesta PUT: aggiornamento del prodotto con id: %d", idProdotto);
     	
-    	//Long idUtente = Long.valueOf(securityIdentity.getAttribute("userId"));
-    	Long idUtente = 23L; //TODO da eliminare
-    	
-    	var prodottoAggiornato = prodottoListaSpesaService.updateProdotto(idUtente, idProdotto, prodottoDto);
-    	log.infof("Prodotto con id: {} aggiornato con successo per l'utente con id: %d", idProdotto, idUtente);
+    	var prodottoAggiornato = prodottoListaSpesaService.updateProdotto(idProdotto, prodottoDto);
+    	log.infof("Prodotto con id: %d aggiornato con successo", idProdotto);
     	return Response.ok(prodottoAggiornato).build();
     }
     
@@ -78,10 +72,7 @@ public class ProdottoListaSpesaController {
     	
         log.infof("Richiesta DELETE per eliminazione del prodotto con id: %d", idProdotto);
     	
-    	//Long idUtente = Long.valueOf(securityIdentity.getAttribute("userId"));
-    	Long idUtente = 23L; //TODO da eliminare
-    	
-    	Long idLista = prodottoListaSpesaService.removeProdotto(idUtente, idProdotto);
+    	Long idLista = prodottoListaSpesaService.removeProdotto(idProdotto);
     	log.infof("Eliminazione completata: prodotto con id %d rimosso dalla lista con id %d", idProdotto, idLista);
     	return Response.noContent().build();       
     }

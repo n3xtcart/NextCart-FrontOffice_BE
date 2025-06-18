@@ -61,7 +61,7 @@ class ProdottoListaSpesaServiceImplTest {
         dto.setNoteProdotto("Nota di test");
         dto.setCheckedProdotto(false);
 
-        service.addProdottoToLista(23L, listaTest.id, dto);
+        service.addProdottoToLista(listaTest.id, dto);
 
         var prodotti = prodottoRepository.listAll();
         assertEquals(1, prodotti.size());
@@ -91,7 +91,7 @@ class ProdottoListaSpesaServiceImplTest {
         dto.setNoteProdotto("Note aggiornate");
         dto.setCheckedProdotto(true);
 
-        ProdottoListaSpesaResponseDTO result = service.updateProdotto(23L, prodotto.id, dto);
+        ProdottoListaSpesaResponseDTO result = service.updateProdotto(prodotto.id, dto);
 
         assertNotNull(result);
         assertEquals(new BigDecimal("5"), result.getQuantitaProdotto());
@@ -110,7 +110,7 @@ class ProdottoListaSpesaServiceImplTest {
         prodotto.setChecked(false);
         prodottoRepository.persist(prodotto);
 
-        service.removeProdotto(23L, prodotto.id);
+        service.removeProdotto(prodotto.id);
 
         var prodottoEliminato = prodottoRepository.findById(prodotto.id);
         assertNull(prodottoEliminato);
