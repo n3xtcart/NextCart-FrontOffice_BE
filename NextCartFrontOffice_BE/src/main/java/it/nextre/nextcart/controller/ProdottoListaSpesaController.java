@@ -63,10 +63,10 @@ public class ProdottoListaSpesaController {
     	log.infof("Richiesta PUT: aggiornamento del prodotto con id: %d", idProdotto);
     	
     	//Long idUtente = Long.valueOf(securityIdentity.getAttribute("userId"));
-    	Long idUtente = 24L; //TODO da eliminare
+    	Long idUtente = 23L; //TODO da eliminare
     	
     	var prodottoAggiornato = prodottoListaSpesaService.updateProdotto(idUtente, idProdotto, prodottoDto);
-    	log.infof("Prodotto con id: %d aggiornato con successo per l'utente con id: %d", idProdotto, idUtente);
+    	log.infof("Prodotto con id: {} aggiornato con successo per l'utente con id: %d", idProdotto, idUtente);
     	return Response.ok(prodottoAggiornato).build();
     }
     
