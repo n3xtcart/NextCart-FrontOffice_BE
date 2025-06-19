@@ -1,11 +1,11 @@
 package it.nextre.nextcart.exception;
 
-public class AccessoNegatoException extends RuntimeException{
+public class RisorsaAccessDeniedException extends RuntimeException{
 	
 	private static final long serialVersionUID = 1L;
 
 
-	public AccessoNegatoException(String messaggio) {
+	public RisorsaAccessDeniedException(String messaggio) {
     	super(messaggio);
     }
 

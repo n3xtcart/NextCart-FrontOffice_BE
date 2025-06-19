@@ -3,6 +3,7 @@ package it.nextre.nextcart.service;
 import java.util.List;
 import java.util.Optional;
 import org.jboss.logging.Logger;
+import io.quarkus.security.identity.SecurityIdentity;
 import it.nextre.nextcart.client.ClientProd;
 import it.nextre.nextcart.dao.ListaSpesaRepository;
 import it.nextre.nextcart.dto.ListaSpesaRequestDTO;
@@ -11,12 +12,12 @@ import it.nextre.nextcart.dto.ListaSpesaSummaryDTO;
 import it.nextre.nextcart.dto.ProdottoDTO;
 import it.nextre.nextcart.dto.UserListaSpesaDTO;
 import it.nextre.nextcart.entity.ListaSpesa;
-import it.nextre.nextcart.exception.AccessoNegatoException;
+import it.nextre.nextcart.exception.RisorsaAccessDeniedException;
 import it.nextre.nextcart.exception.RisorsaNotFoundException;
+import it.nextre.nextcart.util.JwtUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.core.SecurityContext;
 
 @ApplicationScoped
 public class ListaSpesaServiceImpl implements ListaSpesaService {
@@ -31,17 +32,17 @@ public class ListaSpesaServiceImpl implements ListaSpesaService {
     ClientProd prodotti;
     
     @Inject
-    SecurityContext securityContext;
+    JwtUtil jwtUtil;
 
+    @Inject
+    SecurityIdentity securityIdentity;
+    
 	@Override
 	@Transactional
 	public UserListaSpesaDTO createLista(ListaSpesaRequestDTO dto) {
 		
-		//Principal userPrincipal = securityContext.getUserPrincipal();
-		
-		//Long idUtente = Long.valueOf(userPrincipal.getName());
-		
-		Long idUtente = 23L;
+
+		Long idUtente = jwtUtil.estraiToken(securityIdentity).getId();
 		
 		ListaSpesa listaSpesa = dto.toEntity();
 		
@@ -63,7 +64,7 @@ public class ListaSpesaServiceImpl implements ListaSpesaService {
 	@Transactional
 	public UserListaSpesaDTO getListeByUser() {
 		
-        Long idUtente = 23L; 
+		Long idUtente = jwtUtil.estraiToken(securityIdentity).getId();
 
 	    List<ListaSpesa> liste = repo.findByIdUtente(idUtente);
 	    
@@ -79,7 +80,7 @@ public class ListaSpesaServiceImpl implements ListaSpesaService {
 	@Transactional
 	public ListaSpesaResponseDTO getListaByIdAndUser(Long listaId) {
 		
-        Long idUtente = 23L; 
+		Long idUtente = jwtUtil.estraiToken(securityIdentity).getId();
 
         Optional<ListaSpesa> listaTrovata = repo.findByIdUtenteAndIdLista(listaId, idUtente);
         
@@ -97,7 +98,9 @@ public class ListaSpesaServiceImpl implements ListaSpesaService {
 
 	@Override
 	@Transactional
-	public boolean deleteLista(Long idUtente, Long listaId) {
+	public boolean deleteLista(Long listaId) {
+		
+		Long idUtente = jwtUtil.estraiToken(securityIdentity).getId();
 		
         ListaSpesa trovata = repo.findById(listaId);
         
@@ -108,7 +111,7 @@ public class ListaSpesaServiceImpl implements ListaSpesaService {
         
         if (!trovata.getIdUtente().equals(idUtente)) {
         	log.warn("Utente con id: " + idUtente + "non autorizzato ad eliminare la lista con id: " + listaId);
-            throw new AccessoNegatoException("Accesso negato");
+            throw new RisorsaAccessDeniedException("Accesso negato");
         }
  
 		return repo.deleteById(listaId);

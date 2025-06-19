@@ -1,9 +1,9 @@
 package it.nextre.nextcart.controller;
 
 import org.jboss.logging.Logger;
-import io.quarkus.security.identity.SecurityIdentity;
 import it.nextre.nextcart.dto.ProdottoListaSpesaRequestDTO;
 import it.nextre.nextcart.service.ProdottoListaSpesaService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -18,7 +18,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-//@RolesAllowed("user")
+@RolesAllowed("user")
 @Path("/liste")
 public class ProdottoListaSpesaController {
 	
@@ -27,9 +27,6 @@ public class ProdottoListaSpesaController {
     @Inject
     ProdottoListaSpesaService prodottoListaSpesaService;
 
-    @Inject
-    SecurityIdentity securityIdentity;
-    
     public ProdottoListaSpesaController(Logger log) {
     	this.log = log;
     }

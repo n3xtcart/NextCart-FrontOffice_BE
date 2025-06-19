@@ -1,24 +1,23 @@
 package it.nextre.nextcart.mapper;
 
 import org.jboss.logging.Logger;
-
-import it.nextre.nextcart.exception.AccessoNegatoException;
+import it.nextre.nextcart.exception.RisorsaAccessDeniedException;
 import it.nextre.nextcart.exception.ErrorResponse;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 
 @Provider
-public class AccessoNegatoMapper implements ExceptionMapper<AccessoNegatoException>{
+public class RisorsaAccessDeniedMapper implements ExceptionMapper<RisorsaAccessDeniedException>{
 	
 	private Logger log;
 	
-	public AccessoNegatoMapper(Logger log){
+	public RisorsaAccessDeniedMapper(Logger log){
 		this.log = log;
 	}
 	
     @Override
-    public Response toResponse(AccessoNegatoException exception) {
+    public Response toResponse(RisorsaAccessDeniedException exception) {
     	
     	log.errorf("Eccezione con stato 403: %s", exception.getMessage());
     	

@@ -79,7 +79,7 @@ class ListaSpesaServiceImplTest {
         ListaSpesa lista = repo.find("nome", "Spesa Test").firstResult();
         assertNotNull(lista);
 
-        boolean result = service.deleteLista(23L, lista.id);
+        boolean result = service.deleteLista(lista.id);
 
         assertTrue(result);
     }

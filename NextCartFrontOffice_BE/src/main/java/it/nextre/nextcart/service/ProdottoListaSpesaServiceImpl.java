@@ -1,16 +1,18 @@
 package it.nextre.nextcart.service;
 
 import org.jboss.logging.Logger;
+import io.quarkus.security.identity.SecurityIdentity;
 import it.nextre.nextcart.client.ClientProd;
 import it.nextre.nextcart.dao.ListaSpesaRepository;
 import it.nextre.nextcart.dao.ProdottoListaSpesaRepository;
 import it.nextre.nextcart.dto.ProdottoDTO;
 import it.nextre.nextcart.dto.ProdottoListaSpesaRequestDTO;
 import it.nextre.nextcart.dto.ProdottoListaSpesaResponseDTO;
-import it.nextre.nextcart.exception.AccessoNegatoException;
+import it.nextre.nextcart.exception.RisorsaAccessDeniedException;
 import it.nextre.nextcart.exception.ProdottoPresenteException;
 import it.nextre.nextcart.exception.QuantitaUnavailableException;
 import it.nextre.nextcart.exception.RisorsaNotFoundException;
+import it.nextre.nextcart.util.JwtUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -26,6 +28,12 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 	
 	@Inject
 	ClientProd prodottoClient;
+	
+    @Inject
+    JwtUtil jwtUtil;
+
+    @Inject
+    SecurityIdentity securityIdentity;
 	 
     private Logger log; 
     
@@ -37,8 +45,7 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 	@Transactional
 	public Long addProdottoToLista(Long listaId, ProdottoListaSpesaRequestDTO dto) {
 		
-    	//Long idUtente = Long.valueOf(securityIdentity.getAttribute("userId"));
-    	Long idUtente = 23L; //TODO da eliminare
+		Long idUtente = jwtUtil.estraiToken(securityIdentity).getId();
 		
 		log.infof("Richiesta di aggiunta prodotto per l'utente con id: %d alla lista con id: %d", idUtente, listaId);
 		
@@ -51,7 +58,7 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 		 		 
 		 if (!lista.getIdUtente().equals(idUtente)) {
 			 log.warnf("Utente con id: %d non autorizzato ad aggiungere un prodotto alla lista con id: %d", idUtente, listaId);
-		     throw new AccessoNegatoException("Accesso negato");
+		     throw new RisorsaAccessDeniedException("Accesso negato");
 		 }
 		 
 		 boolean trovato = lista.getProdotti().stream()
@@ -87,8 +94,7 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 	@Transactional
 	public ProdottoListaSpesaResponseDTO updateProdotto(Long prodottoId, ProdottoListaSpesaRequestDTO dto) {
 		
-    	//Long idUtente = Long.valueOf(securityIdentity.getAttribute("userId"));
-    	Long idUtente = 23L; //TODO da eliminare
+		Long idUtente = jwtUtil.estraiToken(securityIdentity).getId();
 		
 		log.infof("Inizio aggiornamento prodotto con id: %d per l'utente con id: %d", prodottoId, idUtente);
 		
@@ -106,7 +112,7 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 
 	    if (!lista.getIdUtente().equals(idUtente)) {
 	    	log.warnf("Utente con id %d non autorizzato ad aggiornare il prodotto con id %d", idUtente, prodottoId);
-	        throw new AccessoNegatoException("Accesso negato");
+	        throw new RisorsaAccessDeniedException("Accesso negato");
 	    }
 		
 	    var prodottoOptional = prodottoClient.trovaPerId(prodotto.getIdProdottoShop());
@@ -136,8 +142,7 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 	@Transactional
 	public Long removeProdotto(Long prodottoId) {
 		
-    	//Long idUtente = Long.valueOf(securityIdentity.getAttribute("userId"));
-    	Long idUtente = 23L; //TODO da eliminare
+		Long idUtente = jwtUtil.estraiToken(securityIdentity).getId();
     	
 		log.infof("Inizio eliminazione prodotto con id: %d per l'utente con id: %d", prodottoId, idUtente);
 		
@@ -158,7 +163,7 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
         
         if (!lista.getIdUtente().equals(idUtente)) {
         	log.warnf("Utente con id %d non autorizzato a eliminare il prodotto con id %d", idUtente, prodottoId);
-            throw new AccessoNegatoException("Accesso negato");
+            throw new RisorsaAccessDeniedException("Accesso negato");
         }
         
         prodotto.delete();

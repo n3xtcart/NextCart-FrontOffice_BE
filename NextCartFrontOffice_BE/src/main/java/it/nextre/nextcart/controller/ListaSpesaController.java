@@ -1,12 +1,12 @@
 package it.nextre.nextcart.controller;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
-
 import org.jboss.logging.Logger;
 import it.nextre.nextcart.dto.ListaSpesaRequestDTO;
 import it.nextre.nextcart.dto.ListaSpesaResponseDTO;
 import it.nextre.nextcart.dto.UserListaSpesaDTO;
 import it.nextre.nextcart.service.ListaSpesaService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -19,8 +19,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-
-//@RolesAllowed("user")
+@RolesAllowed("user")
 @Path("/liste-spesa")
 public class ListaSpesaController {
     
@@ -39,7 +38,7 @@ public class ListaSpesaController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createLista(@Valid ListaSpesaRequestDTO dto) {
     	
-        log.info("Richiesta POST per creare una nuova lista per l'utente con id: " + jwt.getClaim("id"));
+        log.info("Richiesta POST per creare una nuova lista");
         
         UserListaSpesaDTO created = listaSpesaService.createLista(dto);
         
@@ -55,9 +54,7 @@ public class ListaSpesaController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getListeByUser() {
     	
-        //Long userId = jwt.getClaim("id");
-        
-        log.info("Richiesta GET per ottenere tutte le liste dell'utente con id: ");
+        log.info("Richiesta GET per ottenere tutte le liste dell'utente");
 
         UserListaSpesaDTO response = listaSpesaService.getListeByUser();
         return Response.ok(response).build();
@@ -68,8 +65,6 @@ public class ListaSpesaController {
     @GET
     @Path("/{id}")
     public Response getListaById(@PathParam("id") Long listaId) {
-    	
-        //Long userId = jwt.getClaim("id");
     	
         log.info("Richiesta GET per ottenere la lista con id: " + listaId);
 
@@ -82,13 +77,8 @@ public class ListaSpesaController {
     @Path("/{id}")
     public Response deleteLista(@PathParam("id") Long listaId) {
     	
-        //Long userId = jwt.getClaim("id");
-    	
         log.info("Richiesta DELETE per eliminare la lista con id: " + listaId);
-
-    	Long idUtente = 23L; 
-
-        listaSpesaService.deleteLista(idUtente, listaId);
+        listaSpesaService.deleteLista(listaId);
 
         log.info("Lista eliminata con successo.");
         return Response.noContent().build(); 
