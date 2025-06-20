@@ -8,22 +8,18 @@ import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 
 @Provider
-public class AuthenticationMapper implements ExceptionMapper<AuthenticationFailedException>{
+public class AuthenticationFailedMapper implements ExceptionMapper<AuthenticationFailedException>{
 	
 	private Logger log;
 	
-	public AuthenticationMapper(Logger log){
+	public AuthenticationFailedMapper(Logger log){
 		this.log = log;
 	}
 
 	@Override
 	public Response toResponse(AuthenticationFailedException exception) {
 
-		String message = (exception.getMessage() != null && !exception.getMessage().isBlank())
-			    ? exception.getMessage()
-			    : "Issuer non valido";
-		
-		log.errorf("Eccezione 401: %s", message);
+		log.errorf("Eccezione 401: token con issuer non valido o scaduto");
     	
         return Response.status(Response.Status.UNAUTHORIZED)
                        .entity(new ErrorResponse("UNAUTHORIZED", "Autenticazione fallita" ))

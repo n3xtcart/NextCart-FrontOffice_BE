@@ -1,22 +1,26 @@
 package it.nextre.nextcart.controller;
 
+import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
+import it.nextre.aut.dto.UserDTO;
 import it.nextre.nextcart.dao.ListaSpesaRepository;
 import it.nextre.nextcart.dto.ListaSpesaRequestDTO;
 import it.nextre.nextcart.dto.ListaSpesaResponseDTO;
 import it.nextre.nextcart.dto.UserListaSpesaDTO;
 import it.nextre.nextcart.entity.ListaSpesa;
+import it.nextre.nextcart.util.JwtUtil;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.time.LocalDate;
-
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @QuarkusTest
+@TestSecurity(user = "utente-test", roles = {"user"})
 class ListaSpesaControllerTest {
 
     @Inject
@@ -24,13 +28,19 @@ class ListaSpesaControllerTest {
 
     @Inject
     ListaSpesaRepository repo;
-
+    
+    @InjectMock
+    JwtUtil jwtUtil;
 
     @Transactional
     @BeforeEach
     void setUp() {
         repo.deleteAll();
 
+        UserDTO mockUtente = new UserDTO();
+        mockUtente.setId(23L);
+        when(jwtUtil.estraiUtente()).thenReturn(mockUtente);
+        
         ListaSpesa lista = new ListaSpesa();
         lista.setNome("Spesa Test");
         lista.setIdUtente(23L);

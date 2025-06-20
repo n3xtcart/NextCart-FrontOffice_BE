@@ -1,6 +1,8 @@
 package it.nextre.nextcart.service;
 
+import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
+import it.nextre.aut.dto.UserDTO;
 import it.nextre.nextcart.client.ClientProd;
 import it.nextre.nextcart.dao.ListaSpesaRepository;
 import it.nextre.nextcart.dao.ProdottoListaSpesaRepository;
@@ -8,9 +10,12 @@ import it.nextre.nextcart.dto.ProdottoListaSpesaRequestDTO;
 import it.nextre.nextcart.dto.ProdottoListaSpesaResponseDTO;
 import it.nextre.nextcart.entity.ListaSpesa;
 import it.nextre.nextcart.entity.ProdottoListaSpesa;
+import it.nextre.nextcart.util.JwtUtil;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
 import jakarta.inject.Inject;
 
 
@@ -34,6 +39,9 @@ class ProdottoListaSpesaServiceImplTest {
 
     @Inject
     ClientProd prodottoClient;
+    
+    @InjectMock
+    JwtUtil jwtUtil;
 
     private ListaSpesa listaTest;
 
@@ -42,6 +50,10 @@ class ProdottoListaSpesaServiceImplTest {
     void setUp() {
         prodottoRepository.deleteAll();
         listaRepository.deleteAll();
+        
+        UserDTO mockUtente = new UserDTO();
+        mockUtente.setId(23L);
+        Mockito.when(jwtUtil.estraiUtente()).thenReturn(mockUtente);
 
         listaTest = new ListaSpesa();
         listaTest.setNome("Lista Test");

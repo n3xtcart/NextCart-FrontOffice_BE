@@ -1,24 +1,27 @@
 package it.nextre.nextcart.controller;
 
+import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
+import it.nextre.aut.dto.UserDTO;
 import it.nextre.nextcart.dao.ListaSpesaRepository;
 import it.nextre.nextcart.dao.ProdottoListaSpesaRepository;
 import it.nextre.nextcart.dto.ProdottoListaSpesaRequestDTO;
 import it.nextre.nextcart.entity.ListaSpesa;
 import it.nextre.nextcart.entity.ProdottoListaSpesa;
+import it.nextre.nextcart.util.JwtUtil;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import jakarta.inject.Inject;
-
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
-
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @QuarkusTest
+@TestSecurity(user = "utente-test", roles = {"user"})
 class ProdottoListaSpesaControllerTest {
 
     @Inject
@@ -29,10 +32,11 @@ class ProdottoListaSpesaControllerTest {
 
     @Inject
     ListaSpesaRepository listaRepo;
-
+    
+    @InjectMock
+    JwtUtil jwtUtil;
+    
     private ListaSpesa listaSpesa;
-    private ProdottoListaSpesa prodotto;
-
 
     @Transactional
     @BeforeEach
@@ -40,7 +44,11 @@ class ProdottoListaSpesaControllerTest {
 
         prodottoRepo.deleteAll();
         listaRepo.deleteAll();
-
+        
+        UserDTO mockUtente = new UserDTO();
+        mockUtente.setId(23L);
+        when(jwtUtil.estraiUtente()).thenReturn(mockUtente);
+        
         listaSpesa = new ListaSpesa();
         listaSpesa.setNome("Lista Test");
         listaSpesa.setIdUtente(23L);

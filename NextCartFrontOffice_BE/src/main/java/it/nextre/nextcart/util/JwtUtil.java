@@ -1,11 +1,10 @@
 package it.nextre.nextcart.util;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.quarkus.security.AuthenticationFailedException;
-import io.quarkus.security.identity.SecurityIdentity;
-import io.smallrye.jwt.auth.principal.DefaultJWTCallerPrincipal;
 import it.nextre.aut.dto.UserDTO;
+import it.nextre.nextcart.exception.TokenConvertException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -13,29 +12,33 @@ import jakarta.inject.Inject;
 public class JwtUtil {
 	
     @Inject
+    JsonWebToken jwt;
+
+    @Inject
     ObjectMapper objectMapper;
 	
-    public UserDTO estraiToken(SecurityIdentity securityIdentity) {
-        try {
-          
-            DefaultJWTCallerPrincipal principal = (DefaultJWTCallerPrincipal) securityIdentity.getPrincipal();
-            String userJson = principal.getClaim("user");
-            
-            if (userJson == null) {
-                throw new AuthenticationFailedException("Claim 'user' mancante nel token");
+    public UserDTO estraiUtente() {
+     
+        var claim = jwt.getClaim("user");
+
+        if (claim == null || claim.toString().isBlank()) {
+            throw new TokenConvertException("Claim 'user' non presente o vuoto nel token");
+        }
+
+        try {    	
+        	
+            UserDTO dto = objectMapper.readValue(claim.toString(), UserDTO.class);
+
+            if ( dto.getId() == null) {
+                throw new TokenConvertException("Campo id nel claim 'user' mancante");
             }
+
+            return dto;
             
-            UserDTO user = objectMapper.readValue(userJson, UserDTO.class);
-
-            if (user.getId() == null) {
-                throw new AuthenticationFailedException("Id utente mancante nel token");
-            }
-
-            return user;
-
-        }catch (JsonProcessingException | ClassCastException | NullPointerException e ) {
-            throw new AuthenticationFailedException("Errore durante la conversione in dto del token");
+        } catch (JsonProcessingException e) {  	
+            throw new TokenConvertException("Errore nella deserializzazione del claim 'user'");
+            
         }
     }
-
+    
 }

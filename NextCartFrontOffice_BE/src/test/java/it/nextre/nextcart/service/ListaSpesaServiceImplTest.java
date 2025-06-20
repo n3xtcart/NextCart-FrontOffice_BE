@@ -1,15 +1,19 @@
 package it.nextre.nextcart.service;
 
+import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
+import it.nextre.aut.dto.UserDTO;
 import it.nextre.nextcart.dao.ListaSpesaRepository;
 import it.nextre.nextcart.dto.ListaSpesaRequestDTO;
 import it.nextre.nextcart.dto.ListaSpesaResponseDTO;
 import it.nextre.nextcart.dto.UserListaSpesaDTO;
 import it.nextre.nextcart.entity.ListaSpesa;
+import it.nextre.nextcart.util.JwtUtil;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.time.LocalDate;
 
@@ -23,11 +27,18 @@ class ListaSpesaServiceImplTest {
 
     @Inject
     ListaSpesaRepository repo;
+    
+    @InjectMock
+    JwtUtil jwtUtil;
 
     @Transactional
     @BeforeEach
     void setUp() {
         repo.deleteAll();
+        
+        UserDTO mockUtente = new UserDTO();
+        mockUtente.setId(23L);
+        Mockito.when(jwtUtil.estraiUtente()).thenReturn(mockUtente);
 
         ListaSpesa lista = new ListaSpesa();
         lista.setNome("Spesa Test");

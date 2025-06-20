@@ -1,7 +1,6 @@
 package it.nextre.nextcart.service;
 
 import org.jboss.logging.Logger;
-import io.quarkus.security.identity.SecurityIdentity;
 import it.nextre.nextcart.client.ClientProd;
 import it.nextre.nextcart.dao.ListaSpesaRepository;
 import it.nextre.nextcart.dao.ProdottoListaSpesaRepository;
@@ -31,10 +30,7 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 	
     @Inject
     JwtUtil jwtUtil;
-
-    @Inject
-    SecurityIdentity securityIdentity;
-	 
+ 
     private Logger log; 
     
     public ProdottoListaSpesaServiceImpl(Logger log) {
@@ -45,7 +41,7 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 	@Transactional
 	public Long addProdottoToLista(Long listaId, ProdottoListaSpesaRequestDTO dto) {
 		
-		Long idUtente = jwtUtil.estraiToken(securityIdentity).getId();
+		Long idUtente = jwtUtil.estraiUtente().getId();
 		
 		log.infof("Richiesta di aggiunta prodotto per l'utente con id: %d alla lista con id: %d", idUtente, listaId);
 		
@@ -94,7 +90,7 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 	@Transactional
 	public ProdottoListaSpesaResponseDTO updateProdotto(Long prodottoId, ProdottoListaSpesaRequestDTO dto) {
 		
-		Long idUtente = jwtUtil.estraiToken(securityIdentity).getId();
+		Long idUtente = jwtUtil.estraiUtente().getId();
 		
 		log.infof("Inizio aggiornamento prodotto con id: %d per l'utente con id: %d", prodottoId, idUtente);
 		
@@ -106,7 +102,7 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 	    
 	    var lista = listaRepository.findById(prodotto.getListaSpesa().id);
 	    if (lista == null) {
-	    	log.warnf("Lista con id {} associata al prodotto non trovata.", prodotto.getListaSpesa().id);
+	    	log.warnf("Lista con id %d non è associata al prodotto con id %d", prodotto.getListaSpesa().id, prodotto.id);
 	        throw new RisorsaNotFoundException("Prodotto non presente nella lista.");
 	    }
 
@@ -142,7 +138,7 @@ public class ProdottoListaSpesaServiceImpl implements ProdottoListaSpesaService{
 	@Transactional
 	public Long removeProdotto(Long prodottoId) {
 		
-		Long idUtente = jwtUtil.estraiToken(securityIdentity).getId();
+		Long idUtente = jwtUtil.estraiUtente().getId();
     	
 		log.infof("Inizio eliminazione prodotto con id: %d per l'utente con id: %d", prodottoId, idUtente);
 		

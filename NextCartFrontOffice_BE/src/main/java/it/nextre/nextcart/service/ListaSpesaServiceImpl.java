@@ -3,7 +3,6 @@ package it.nextre.nextcart.service;
 import java.util.List;
 import java.util.Optional;
 import org.jboss.logging.Logger;
-import io.quarkus.security.identity.SecurityIdentity;
 import it.nextre.nextcart.client.ClientProd;
 import it.nextre.nextcart.dao.ListaSpesaRepository;
 import it.nextre.nextcart.dto.ListaSpesaRequestDTO;
@@ -33,16 +32,13 @@ public class ListaSpesaServiceImpl implements ListaSpesaService {
     
     @Inject
     JwtUtil jwtUtil;
-
-    @Inject
-    SecurityIdentity securityIdentity;
-    
+   
 	@Override
 	@Transactional
 	public UserListaSpesaDTO createLista(ListaSpesaRequestDTO dto) {
 		
 
-		Long idUtente = jwtUtil.estraiToken(securityIdentity).getId();
+		Long idUtente = jwtUtil.estraiUtente().getId();
 		
 		ListaSpesa listaSpesa = dto.toEntity();
 		
@@ -64,7 +60,7 @@ public class ListaSpesaServiceImpl implements ListaSpesaService {
 	@Transactional
 	public UserListaSpesaDTO getListeByUser() {
 		
-		Long idUtente = jwtUtil.estraiToken(securityIdentity).getId();
+		Long idUtente = jwtUtil.estraiUtente().getId();
 
 	    List<ListaSpesa> liste = repo.findByIdUtente(idUtente);
 	    
@@ -80,7 +76,7 @@ public class ListaSpesaServiceImpl implements ListaSpesaService {
 	@Transactional
 	public ListaSpesaResponseDTO getListaByIdAndUser(Long listaId) {
 		
-		Long idUtente = jwtUtil.estraiToken(securityIdentity).getId();
+		Long idUtente = jwtUtil.estraiUtente().getId();
 
         Optional<ListaSpesa> listaTrovata = repo.findByIdUtenteAndIdLista(listaId, idUtente);
         
@@ -100,7 +96,7 @@ public class ListaSpesaServiceImpl implements ListaSpesaService {
 	@Transactional
 	public boolean deleteLista(Long listaId) {
 		
-		Long idUtente = jwtUtil.estraiToken(securityIdentity).getId();
+		Long idUtente = jwtUtil.estraiUtente().getId();
 		
         ListaSpesa trovata = repo.findById(listaId);
         

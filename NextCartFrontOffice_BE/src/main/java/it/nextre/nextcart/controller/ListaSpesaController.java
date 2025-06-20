@@ -1,6 +1,5 @@
 package it.nextre.nextcart.controller;
 
-import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.jboss.logging.Logger;
 import it.nextre.nextcart.dto.ListaSpesaRequestDTO;
 import it.nextre.nextcart.dto.ListaSpesaResponseDTO;
@@ -29,10 +28,7 @@ public class ListaSpesaController {
     @Inject
     ListaSpesaService listaSpesaService;
 
-    @Inject
-    JsonWebToken jwt;
-
-    
+ 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
