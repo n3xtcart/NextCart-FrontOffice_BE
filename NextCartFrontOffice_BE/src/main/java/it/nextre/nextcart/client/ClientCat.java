@@ -3,12 +3,13 @@ package it.nextre.nextcart.client;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+import io.quarkus.arc.profile.IfBuildProfile;
 import it.nextre.nextcart.dto.CategoriaDTO;
 import it.nextre.nextcart.service.ServizioCategoria;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
+@IfBuildProfile("mock")
 public class ClientCat implements ServizioCategoria {
 	
 	private final List<CategoriaDTO> categorie = new ArrayList<>();

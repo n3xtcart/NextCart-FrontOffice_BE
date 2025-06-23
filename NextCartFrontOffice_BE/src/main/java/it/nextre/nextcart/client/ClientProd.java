@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+import io.quarkus.arc.profile.IfBuildProfile;
 import it.nextre.nextcart.dto.CategoriaDTO;
 import it.nextre.nextcart.dto.ProdottoDTO;
 import it.nextre.nextcart.service.ServizioProdotto;
@@ -13,6 +13,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 @ApplicationScoped
+@IfBuildProfile("mock")
 public class ClientProd implements ServizioProdotto {
 	
     private final List<ProdottoDTO> prodotti = new ArrayList<>();

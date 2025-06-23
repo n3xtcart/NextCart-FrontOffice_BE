@@ -3,7 +3,6 @@ package it.nextre.nextcart.service;
 import java.util.List;
 import java.util.Optional;
 import org.jboss.logging.Logger;
-import it.nextre.nextcart.client.ClientProd;
 import it.nextre.nextcart.dao.ListaSpesaRepository;
 import it.nextre.nextcart.dto.ListaSpesaRequestDTO;
 import it.nextre.nextcart.dto.ListaSpesaResponseDTO;
@@ -28,7 +27,7 @@ public class ListaSpesaServiceImpl implements ListaSpesaService {
     ListaSpesaRepository repo;
 
     @Inject
-    ClientProd prodotti;
+    ServizioProdotto prodotti;
     
     @Inject
     JwtUtil jwtUtil;
@@ -106,7 +105,7 @@ public class ListaSpesaServiceImpl implements ListaSpesaService {
         }
         
         if (!trovata.getIdUtente().equals(idUtente)) {
-        	log.warn("Utente con id: " + idUtente + "non autorizzato ad eliminare la lista con id: " + listaId);
+        	log.warn("Utente con id: " + idUtente + " non autorizzato ad eliminare la lista con id: " + listaId);
             throw new RisorsaAccessDeniedException("Accesso negato");
         }
  
