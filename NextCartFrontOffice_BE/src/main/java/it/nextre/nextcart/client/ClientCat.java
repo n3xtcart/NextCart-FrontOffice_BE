@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import io.quarkus.arc.profile.IfBuildProfile;
 import it.nextre.nextcart.dto.CategoriaDTO;
+import it.nextre.nextcart.exception.EccezioneAccessoDati;
+import it.nextre.nextcart.exception.EccezioneRisorsaNonTrovata;
 import it.nextre.nextcart.service.ServizioCategoria;
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -40,6 +42,32 @@ public class ClientCat implements ServizioCategoria {
 		}
 
 		return Optional.empty();
+	}
+
+
+	@Override
+	public CategoriaDTO salva(CategoriaDTO categoriaDTO) {
+		return null;
+	}
+
+
+
+	@Override
+	public Optional<CategoriaDTO> trovaPerNome(String nome) {
+		return Optional.empty();
+	}
+
+
+
+	@Override
+	public CategoriaDTO modifica(CategoriaDTO categoriaDTO) throws EccezioneRisorsaNonTrovata {
+		return null;
+	}
+
+
+
+	@Override
+	public void elimina(Long id) throws EccezioneRisorsaNonTrovata, EccezioneAccessoDati {	
 	}
 
 

@@ -7,6 +7,7 @@ import java.util.Optional;
 import io.quarkus.arc.profile.IfBuildProfile;
 import it.nextre.nextcart.dto.CategoriaDTO;
 import it.nextre.nextcart.dto.ProdottoDTO;
+import it.nextre.nextcart.exception.EccezioneRisorsaNonTrovata;
 import it.nextre.nextcart.service.ServizioProdotto;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -103,6 +104,23 @@ public class ClientProd implements ServizioProdotto {
 		}
 		return prodottiTrovati;
 
+	}
+
+
+	@Override
+	public ProdottoDTO salva(ProdottoDTO prodottoDTO) throws EccezioneRisorsaNonTrovata {
+		return null;
+	}
+
+
+	@Override
+	public ProdottoDTO modifica(ProdottoDTO prodottoDTO) throws EccezioneRisorsaNonTrovata {
+		return null;
+	}
+
+
+	@Override
+	public void elimina(Long id) throws EccezioneRisorsaNonTrovata {	
 	} 
 
 }

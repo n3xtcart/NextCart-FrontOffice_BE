@@ -6,6 +6,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 import io.quarkus.arc.profile.IfBuildProfile;
 import it.nextre.nextcart.dto.ProdottoDTO;
+import it.nextre.nextcart.exception.EccezioneRisorsaNonTrovata;
 import it.nextre.nextcart.service.ServizioProdotto;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -40,6 +41,20 @@ public class ProdottoRestClientAdapter implements ServizioProdotto {
 	public List<ProdottoDTO> trovaPerIdCategoria(Long idCategoria) {
 		log.infof("Richiesta al servizio esterno Prodotto: trovaPerIdCategoria con id = %d avviata", idCategoria);
 		return prodottoRestClient.trovaPerIdCategoria(idCategoria);
+	}
+
+	@Override
+	public ProdottoDTO salva(ProdottoDTO prodottoDTO) throws EccezioneRisorsaNonTrovata {
+		return null;
+	}
+
+	@Override
+	public ProdottoDTO modifica(ProdottoDTO prodottoDTO) throws EccezioneRisorsaNonTrovata {
+		return null;
+	}
+
+	@Override
+	public void elimina(Long id) throws EccezioneRisorsaNonTrovata {	
 	}
 
 }
